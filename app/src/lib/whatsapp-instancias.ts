@@ -1,8 +1,9 @@
 /**
- * Catálogo WhatsApp Tilit — projetos isolados da Minas.
- * Atendimento → Uaz (sanjaworks); Comercial → Evolution.
+ * Catálogo WhatsApp — env (sync) + DB wa_instancias (async).
+ * CRUD do painel usa carregarInstanciasWa; env fica como fallback/seed.
  */
 import { config } from '../config.js';
+import { listarWaInstancias } from '../wa-instancias-store.js';
 
 export type WaProvider = 'uazapi' | 'evolution';
 
@@ -10,6 +11,7 @@ export type WaInstanciaMeta = {
   name: string;
   label: string;
   provider: WaProvider;
+  chatwootInboxName?: string | null;
 };
 
 const ALIASES_ATENDIMENTO = new Set([
@@ -24,6 +26,8 @@ const ALIASES_EVO: Record<string, string> = {
   'tilit-comercial': 'tilit-comercial-chatwoot',
 };
 
+let cacheAsync: WaInstanciaMeta[] | null = null;
+
 function labelDe(name: string): string {
   return name.replace(/-chatwoot$/i, '').replace(/^tilit-/i, '');
 }
@@ -32,11 +36,7 @@ export function listaInstanciasWa(): WaInstanciaMeta[] {
   const out: WaInstanciaMeta[] = [];
 
   if (config.uazapiToken && config.uazapiBaseUrl) {
-    out.push({
-      name: 'atendimento',
-      label: 'atendimento',
-      provider: 'uazapi',
-    });
+    out.push({ name: 'atendimento', label: 'atendimento', provider: 'uazapi' });
   }
 
   const evo = (config.evolutionInstances?.length
@@ -45,13 +45,34 @@ export function listaInstanciasWa(): WaInstanciaMeta[] {
   ).filter((n) => n && !/atendimento/i.test(n));
 
   for (const name of evo) {
-    out.push({
-      name,
-      label: labelDe(name),
-      provider: 'evolution',
-    });
+    out.push({ name, label: labelDe(name), provider: 'evolution' });
   }
   return out;
+}
+
+/** Lista preferindo DB; se vazio, cai no env. */
+export async function carregarInstanciasWa(): Promise<WaInstanciaMeta[]> {
+  if (cacheAsync) return cacheAsync;
+  try {
+    const rows = await listarWaInstancias({ soAtivas: true });
+    if (rows.length) {
+      cacheAsync = rows.map((r) => ({
+        name: r.nome,
+        label: r.label,
+        provider: r.provider,
+        chatwootInboxName: r.chatwoot_inbox_name,
+      }));
+      return cacheAsync;
+    }
+  } catch {
+    /* DB ainda nao migrado */
+  }
+  cacheAsync = listaInstanciasWa();
+  return cacheAsync;
+}
+
+export function invalidarCacheWaInstancias(): void {
+  cacheAsync = null;
 }
 
 export function resolverMetaInstancia(raw?: string | null): WaInstanciaMeta {
