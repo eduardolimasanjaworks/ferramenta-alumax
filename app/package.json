@@ -1,0 +1,37 @@
+{
+  "name": "iagmx-atendimento",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "test": "node ../scripts/teste-completo.mjs",
+    "test:rapido": "node ../scripts/teste-completo.mjs --sem-llm",
+    "test:capacidades": "npm run build && node ../scripts/teste-capacidades.mjs",
+    "test:simulacao": "npm run build && node ../scripts/teste-simulacao-motoristas.mjs",
+    "test:crm": "node ../scripts/teste-crm.mjs",
+    "test:campanhas": "node ../scripts/teste-campanhas.mjs",
+    "test:campanhas:unidade": "node --import tsx ../scripts/teste-campanhas-unidade.mjs",
+    "test:campanhas:tudo": "npm run test:campanhas:unidade && npm run test:campanhas"
+  },
+  "dependencies": {
+    "@fastify/static": "^8.0.2",
+    "@qdrant/js-client-rest": "1.12.0",
+    "correios-brasil": "^3.0.6",
+    "fastify": "^5.2.1",
+    "googleapis": "^171.4.0",
+    "ioredis": "^5.4.2",
+    "openai": "^4.77.0",
+    "pdf-parse": "^1.1.1",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/pdf-parse": "^1.1.4",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

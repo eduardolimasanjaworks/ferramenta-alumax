@@ -1,0 +1,5 @@
+node_modules
+vendor/crm-techfala/node_modules
+vendor/crm-techfala/dist
+vendor/techfala-calendario/node_modules
+vendor/techfala-calendario/dist

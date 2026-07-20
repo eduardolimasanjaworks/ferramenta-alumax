@@ -1,0 +1,99 @@
+/**
+ * Estilos do sheet/formulário de campanha.
+ * Separado da lista para manter CSS modular.
+ */
+.cp-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgb(0 0 0 / 45%);
+  display: flex;
+  justify-content: flex-end;
+}
+.cp-sheet {
+  width: min(700px, 100vw);
+  height: 100%;
+  background: #fff;
+  border-radius: 12px 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  transition: width 0.12s ease;
+}
+.cp-sheet.is-expanded { width: min(1100px, 98vw); }
+.cp-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.cp-sheet-head h2 { margin: 0; font-size: 20px; }
+.cp-sheet-actions { display: flex; gap: 4px; }
+.cp-sheet-body {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 8px 2px 16px 0;
+}
+.cp-sheet-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--cp-border);
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 500; }
+.input {
+  width: 100%;
+  border: 1px solid var(--cp-border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font: inherit;
+  font-weight: 400;
+  background: #fff;
+}
+textarea.input { resize: vertical; min-height: 80px; }
+
+.cp-msg-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.cp-msg-card {
+  border: 1px solid var(--cp-border);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: #f9fafb;
+}
+.cp-msg-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cp-delay { display: flex; flex-direction: column; gap: 8px; font-size: 14px; font-weight: 500; }
+.cp-delay-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cp-delay-row label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+
+.cp-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 720px) {
+  .cp-sheet, .cp-sheet.is-expanded {
+    width: 100%;
+    border-radius: 0;
+  }
+  .cp-delay-row { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,215 @@
+/**
+ * Estilos base + lista/cards das Campanhas.
+ * Sheet/form ficam em styles-sheet.css (limite de arquivo).
+ */
+:root {
+  --cp-bg: #f3f4f6;
+  --cp-card: #fff;
+  --cp-ink: #111827;
+  --cp-muted: #6b7280;
+  --cp-brand: #111224;
+  --cp-border: #d1d5db;
+  --cp-danger: #dc2626;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: var(--cp-bg);
+  color: var(--cp-ink);
+}
+
+.cp-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 16px;
+  overflow: auto;
+}
+.cp-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.cp-toolbar h1 { margin: 0; font-size: 22px; }
+.cp-sub { margin: 4px 0 0; color: var(--cp-muted); font-size: 13px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 8px;
+  border: 1px solid var(--cp-border);
+  padding: 8px 14px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  background: #fff;
+  color: var(--cp-ink);
+}
+.btn-sm { padding: 6px 10px; font-size: 13px; }
+.btn-primary { background: var(--cp-brand); color: #fff; border-color: var(--cp-brand); }
+.btn-outline { background: #fff; }
+.btn-ghost { background: transparent; border-color: transparent; }
+.btn.danger, .danger { color: var(--cp-danger); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btn-pill { border-radius: 999px; }
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  justify-content: center;
+  border-radius: 999px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.cp-list { display: flex; flex-direction: column; gap: 12px; }
+.cp-card {
+  background: var(--cp-card);
+  border: 1px solid var(--cp-border);
+  border-radius: 12px;
+}
+.cp-card-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 16px 18px;
+}
+.cp-card-hit {
+  flex: 1;
+  min-width: 220px;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+.cp-card-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.cp-card-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.cp-card-id {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--cp-muted);
+}
+.cp-card-chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.cp-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 99px;
+  border: 1px solid #d1d5db;
+  color: var(--cp-muted);
+  background: #fff;
+}
+.cp-card-msg { margin-bottom: 8px; }
+.cp-card-preview {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--cp-muted);
+  word-break: break-word;
+}
+.cp-card-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 12px;
+  color: var(--cp-muted);
+}
+.cp-card-actions {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+.cp-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 20;
+  min-width: 150px;
+  background: #fff;
+  border: 1px solid var(--cp-border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+}
+.cp-menu button {
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--cp-ink);
+}
+.cp-menu button:hover { background: #f3f4f6; }
+.cp-menu button.danger { color: var(--cp-danger); }
+
+.cp-meta, .cp-hint { margin: 0; font-size: 13px; color: var(--cp-muted); }
+.cp-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 99px;
+  background: #e5e7eb;
+  border: 1px solid transparent;
+}
+.cp-badge.is-agendada, .cp-badge.is-em_andamento {
+  background: #eff6ff;
+  color: #2563eb;
+  border-color: #bfdbfe;
+}
+.cp-badge.is-concluida { background: #d1fae5; color: #065f46; }
+.cp-badge.is-pausada, .cp-badge.is-cancelada { background: #fee2e2; color: #991b1b; }
+.cp-badge.is-rascunho { background: #f3f4f6; color: #4b5563; }
+
+.cp-empty {
+  text-align: center;
+  padding: 48px 16px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px dashed var(--cp-border);
+}
+.cp-empty-t { font-weight: 700; margin: 0 0 6px; }
+.cp-empty-s { margin: 0; color: var(--cp-muted); }
+.cp-erro {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+@media (max-width: 720px) {
+  .cp-page { padding: 12px; }
+}

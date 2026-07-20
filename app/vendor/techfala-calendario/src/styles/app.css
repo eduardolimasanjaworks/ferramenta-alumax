@@ -1,0 +1,22 @@
+/**
+ * Agrega os CSS do app (sem Tailwind).
+ * Cada arquivo fica pequeno e fácil de manter.
+ */
+@import './tokens.css';
+@import './shell.css';
+@import './toolbar.css';
+@import './kanban.css';
+@import './views.css';
+@import './contato.css';
+@import './contato-abas.css';
+@import './timeline.css';
+@import './tarefas.css';
+@import './tarefas-form.css';
+@import './tarefas-cal.css';
+@import './campos.css';
+@import './calendario.css';
+@import './calendario-side.css';
+@import './calendario-sheets.css';
+@import './calendario-lista.css';
+@import './calendario-config.css';
+@import './calendario-publico.css';

@@ -1,0 +1,57 @@
+/**
+ * Estilos do stub da página pública de agendamento.
+ * Layout simples full-page, fora do shell do CRM.
+ */
+
+.pub-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px 16px 48px;
+  background:
+    radial-gradient(ellipse at top, #e8f4fc 0%, transparent 55%),
+    #f7f8fa;
+}
+
+.pub-card {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px 24px;
+  background: #fff;
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgb(17 18 36 / 8%);
+}
+
+.pub-card h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #111224;
+}
+
+.pub-desc {
+  margin: 0;
+  font-size: 14px;
+  color: #3c4043;
+  line-height: 1.4;
+}
+
+.pub-back {
+  align-self: flex-start;
+  margin: -8px 0 0 -8px;
+}
+
+.pub-ok {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 14px;
+  font-weight: 500;
+}

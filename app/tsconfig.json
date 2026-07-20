@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "src/proativos-filtros.ts",
+    "src/proativos-templates.ts",
+    "src/proativos-config.ts",
+    "src/proativos-store.ts",
+    "src/proativos-minasplaca.ts",
+    "src/precos-produtos-store.ts",
+    "src/precos-tabelas-padrao.ts",
+    "src/calculadora-minasplaca.ts",
+    "src/vhsys-client.ts",
+    "src/rastreio-client.ts"
+  ]
+}

@@ -1,0 +1,349 @@
+/**
+ * Sub-sidebar esquerda do Calendário (256px).
+ * Novo Evento, mini-cal e lista de agendas.
+ */
+
+.cal-sidebar {
+  width: 256px;
+  min-width: 256px;
+  max-width: 256px;
+  flex-shrink: 0;
+  min-height: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0 20px 20px 15px;
+  border-right: 1px solid var(--border);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  background: #fff;
+}
+
+.cal-btn-novo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  align-self: flex-start;
+  margin: 25px 0;
+  padding: 15px;
+  border: none;
+  border-radius: 48px;
+  background: #fff;
+  box-shadow: 0 0 10px rgb(60 64 67 / 10%);
+  font-size: 16px;
+  font-weight: 600;
+  color: #3c4043;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+
+.cal-btn-novo:hover {
+  box-shadow: 0 0 14px rgb(60 64 67 / 18%);
+}
+
+.cal-plus-cross {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.cal-plus-cross i {
+  position: absolute;
+  background: #111224;
+  display: block;
+}
+
+.cal-plus-cross .v {
+  left: 8px;
+  top: 2px;
+  width: 6px;
+  height: 18px;
+  border-radius: 1px;
+  opacity: 0.85;
+}
+
+.cal-plus-cross .h {
+  left: 2px;
+  top: 8px;
+  width: 18px;
+  height: 6px;
+  border-radius: 1px;
+  opacity: 0.85;
+}
+
+.cal-plus-cross .dot {
+  left: 8px;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+}
+
+.cal-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.cal-mini-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 8px;
+}
+
+.cal-mini-mes {
+  font-size: 14px;
+  font-weight: 500;
+  color: #3c4043;
+  text-transform: capitalize;
+}
+
+.cal-mini-nav {
+  display: flex;
+  gap: 10px;
+}
+
+.cal-mini-nav-btn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 99px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #3c4043;
+  padding: 0;
+}
+
+.cal-mini-nav-btn:hover {
+  background: var(--muted);
+}
+
+.cal-mini-nav-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.cal-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+}
+
+.cal-mini-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 2px 0;
+}
+
+.cal-mini-letra {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9aa0a6;
+}
+
+.cal-mini-dia {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 99px;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 500;
+  color: #3c4043;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cal-mini-dia.is-out {
+  color: #9aa0a6;
+}
+
+.cal-mini-dia.is-sel {
+  background: #111224;
+  color: #fff;
+}
+
+.cal-mini-dia:hover:not(.is-sel) {
+  background: var(--muted);
+}
+
+.cal-agendas-side {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.cal-agendas-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 36px;
+  padding: 0 15px;
+  border: none;
+  border-radius: 5px;
+  background: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  color: #3c4043;
+  cursor: pointer;
+}
+
+.cal-agendas-toggle svg {
+  width: 14px;
+  height: 14px;
+}
+
+.cal-agendas-toggle-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cal-agendas-busca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding-left: 5px;
+}
+
+.cal-agendas-busca > svg {
+  width: 20px;
+  height: 20px;
+  color: #3c4043;
+  flex-shrink: 0;
+}
+
+.cal-agendas-busca input {
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  border: none;
+  border-bottom: 2px solid var(--muted);
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  color: #3c4043;
+  padding: 6px 0;
+  outline: none;
+}
+
+.cal-agendas-busca input:focus {
+  border-bottom-color: #111224;
+}
+
+.cal-agendas-add {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 99px;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #3c4043;
+  padding: 0;
+}
+
+.cal-agendas-add svg {
+  width: 18px;
+  height: 18px;
+}
+
+.cal-agendas-ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 300px;
+  overflow: auto;
+}
+
+.cal-agenda-row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 36px;
+  margin: 5px 0;
+  padding-right: 5px;
+}
+
+.cal-agenda-check {
+  width: 20px;
+  height: 20px;
+  margin: 0 8px;
+  border: 2px solid;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.cal-agenda-check svg {
+  width: 14px;
+  height: 14px;
+}
+
+.cal-agenda-row-nome {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3c4043;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cal-agenda-ico {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 99px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #3c4043;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.cal-agenda-ico:hover {
+  background: var(--muted);
+}
+
+.cal-agenda-ico svg {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 900px) {
+  .cal-sidebar {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    max-height: 42vh;
+  }
+}

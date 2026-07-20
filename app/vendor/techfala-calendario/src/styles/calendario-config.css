@@ -1,0 +1,560 @@
+/**
+ * Estilos do painel Configurar Agenda (sheet + accordions).
+ * Abre compacto; classe `.is-expanded` libera largura quase tela cheia.
+ */
+
+.cal-sheet.is-config {
+  width: min(860px, 100vw);
+  max-width: 860px;
+  padding: 20px;
+  background: #f3f4f6;
+  transition: width 0.12s ease, max-width 0.12s ease;
+}
+
+.cal-sheet.is-config.is-expanded {
+  width: min(1280px, 98vw);
+  max-width: min(1280px, 98vw);
+  padding: 24px 28px;
+}
+
+.cal-overlay-nested {
+  z-index: 110;
+  background: rgb(0 0 0 / 40%);
+}
+
+.cal-sheet.is-nested {
+  width: min(700px, 100vw);
+  max-width: 700px;
+}
+
+.cfg-textarea-lg {
+  min-height: 150px !important;
+}
+
+.cfg-list-btn {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.cfg-card-meta {
+  margin: 0;
+  font-size: 13px;
+  color: #9aa0a6;
+  font-weight: 400;
+}
+
+.cfg-help-lead,
+.cfg-help-sub {
+  margin: 0;
+  font-size: 14px;
+  color: #3c4043;
+  line-height: 1.4;
+}
+
+.cfg-help-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 13px;
+  color: #3c4043;
+  line-height: 1.45;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cfg-erro {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.cfg-envio-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cfg-spin {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 90px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.cfg-spin-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cfg-spin-btns button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  line-height: 1;
+  cursor: pointer;
+  font-size: 10px;
+  color: #111224;
+}
+
+.cfg-spin-btns button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.cfg-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.cfg-head-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--muted);
+  color: #111224;
+}
+
+.cfg-head-ico svg {
+  width: 25px;
+  height: 25px;
+}
+
+.cfg-body {
+  gap: 14px;
+  padding-right: 8px;
+}
+
+.cal-sheet.is-config .cal-sheet-body.cfg-body {
+  background: transparent;
+}
+
+.cfg-toggle-linha {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cfg-toggle-linha p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  color: #3c4043;
+  line-height: 1.35;
+}
+
+/* —— Accordion: card fechado com respiro (não faixa achatada) —— */
+.cfg-acc {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(17 18 36 / 4%);
+  overflow: hidden;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.cfg-acc:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 2px 8px rgb(17 18 36 / 6%);
+}
+
+.cfg-acc.is-open {
+  border-color: #c7ccd4;
+  box-shadow: 0 2px 10px rgb(17 18 36 / 7%);
+}
+
+.cfg-acc-head {
+  width: 100%;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  border: none;
+  background: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  text-align: left;
+  transition: background 0.12s ease;
+}
+
+.cfg-acc-head:hover {
+  background: #f8fafc;
+}
+
+.cfg-acc-head:focus-visible {
+  outline: 2px solid #111224;
+  outline-offset: -2px;
+}
+
+.cfg-acc.is-open > .cfg-acc-head {
+  background: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cfg-acc-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cfg-acc-ico {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #eef0f3;
+  color: #111224;
+}
+
+.cfg-acc-ico svg {
+  width: 18px;
+  height: 18px;
+}
+
+.cfg-acc-title {
+  min-width: 0;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.cfg-acc-right {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.cfg-acc.is-open .cfg-acc-right {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.cfg-acc-right > svg {
+  width: 18px;
+  height: 18px;
+}
+
+.cfg-acc-body {
+  padding: 8px 18px 20px;
+  background: #fff;
+}
+
+.cfg-servicos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cfg-servicos-head {
+  display: grid;
+  grid-template-columns: 1fr 110px 36px;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  padding: 0 2px;
+}
+
+.cfg-servico-row,
+.cfg-servico-add {
+  display: grid;
+  grid-template-columns: 1fr 110px auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.cfg-servico-dur {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cfg-servico-dur .input {
+  width: 72px;
+}
+
+.cfg-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 12px;
+}
+
+.cfg-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 28px 12px;
+  text-align: center;
+}
+
+.cfg-empty-t {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #3c4043;
+}
+
+.cfg-empty-s {
+  margin: 0;
+  font-size: 13px;
+  color: #9aa0a6;
+  max-width: 420px;
+}
+
+.cfg-add-btn {
+  align-self: center;
+}
+
+.cfg-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--muted);
+}
+
+.cfg-card-top {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.cfg-card-top .input {
+  flex: 1;
+}
+
+.cfg-tempo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.cfg-tempo-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cfg-tempo-row .input {
+  width: 72px;
+  height: 36px;
+}
+
+.cfg-dias-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cfg-dias-letras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cfg-dia-chip {
+  width: 36px;
+  height: 36px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  background: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cfg-dia-chip.is-on {
+  background: #111224;
+  color: #fff;
+  border-color: #111224;
+}
+
+.cfg-slot-row {
+  display: grid;
+  grid-template-columns: 36px repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+
+.cfg-slot-letra {
+  font-weight: 700;
+  font-size: 16px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.cfg-janelas-grid {
+  display: none;
+}
+
+.cfg-janelas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cfg-dia-card {
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cfg-dia-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.cfg-dia-card-head strong {
+  flex: 1;
+  min-width: 80px;
+  font-size: 15px;
+  color: #111827;
+}
+
+.cfg-janela-letra {
+  width: 32px;
+  height: 32px;
+  border-radius: 99px;
+  background: #111224;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cfg-faixa-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+
+.cfg-faixa-field {
+  margin: 0;
+}
+
+.cfg-faixa-field .input {
+  min-height: 40px;
+  font-size: 15px;
+}
+
+.cfg-faixa-sep {
+  padding-bottom: 10px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.cfg-faixa-spacer {
+  width: 72px;
+}
+
+.cfg-add-intervalo {
+  align-self: flex-start;
+}
+
+.cfg-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.cfg-link-prefix {
+  font-size: 13px;
+  color: #9aa0a6;
+  white-space: nowrap;
+}
+
+.cfg-link-row .input {
+  flex: 1;
+  min-width: 140px;
+}
+
+.cfg-param-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.cfg-param-row .input {
+  flex: 1;
+  min-width: 140px;
+}
+
+@media (max-width: 720px) {
+  .cal-sheet.is-config,
+  .cal-sheet.is-config.is-expanded {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    padding: 16px;
+  }
+
+  .cfg-slot-row {
+    grid-template-columns: 28px 1fr;
+  }
+
+  .cfg-faixa-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .cfg-faixa-sep,
+  .cfg-faixa-spacer {
+    display: none;
+  }
+}

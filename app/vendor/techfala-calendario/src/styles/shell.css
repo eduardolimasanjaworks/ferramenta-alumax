@@ -1,0 +1,88 @@
+/**
+ * Shell: frame da app e sidebar.
+ */
+
+.app-shell {
+  display: flex;
+  height: 100dvh;
+  max-width: 100vw;
+  overflow: hidden;
+  background: var(--background);
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* —— Sidebar esquerda (Bubble) —— */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 0;
+  border-right: 1px solid var(--border);
+  background: #fff;
+  overflow-y: auto;
+}
+
+.sidebar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--nav-icon);
+  transition: background 0.15s ease;
+}
+
+.sidebar-item:hover {
+  background: var(--accent);
+}
+
+.sidebar-item.is-active {
+  color: var(--nav-active);
+}
+
+.sidebar-item.is-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 0 4px 4px 0;
+  background: var(--nav-active);
+}
+
+.sidebar-item svg {
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar-item[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #1a1a2e;
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 50;
+  pointer-events: none;
+}

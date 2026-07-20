@@ -1,0 +1,35 @@
+# alumax — sobe SO o app; postgres/redis/qdrant/directus sao os containers
+# tilit_* compartilhados (rede gmx_net). Traefik publica em https://alumax.ia.sanjaworks.com.
+# Gerado por scripts/clonar-instancia.sh.
+
+networks:
+  gmx_net:
+    external: true
+    name: gmx_net
+  n8n_edge:
+    external: true
+    name: n8n_edge
+
+services:
+  app:
+    build: ./app
+    container_name: alumax_app
+    networks: [gmx_net, n8n_edge]
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=n8n_edge
+      - traefik.http.routers.alumax.rule=Host(`alumax.ia.sanjaworks.com`)
+      - traefik.http.routers.alumax.entrypoints=websecure
+      - traefik.http.routers.alumax.tls.certresolver=le
+      - traefik.http.routers.alumax.service=alumax
+      - traefik.http.services.alumax.loadbalancer.server.port=8116
+    ports:
+      - '0.0.0.0:8116:8116'
+    env_file:
+      - .env
+    volumes:
+      - ./.env:/app/.env:ro
+      - ./prompt-cliente.txt:/app/prompt-cliente.txt:ro
+      - ./data:/app/data:ro
+      - ./data/crm-arquivos:/app/data/crm-arquivos

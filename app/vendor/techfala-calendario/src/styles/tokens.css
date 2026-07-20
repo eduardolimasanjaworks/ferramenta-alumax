@@ -1,0 +1,72 @@
+/**
+ * Tokens e reset global do TechFala.
+ */
+
+/**
+ * Tema e layout fiel ao dump TechFala / campaign-connect-v2.
+ * CSS puro — sem Tailwind nem libs de estilo.
+ */
+
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --primary: #1a1a2e;
+  --primary-hover: #2a2a42;
+  --primary-foreground: #fafafa;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #1a1a2e;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #0a0a0a;
+  --nav-active: #f5008d;
+  --nav-icon: #3c4043;
+  --sidebar-w: 64px;
+  --radius: 8px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+/* iframe do painel: scroll fica nos painéis internos (.cal-board), não no body */
+html,
+body {
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+input {
+  font: inherit;
+}

@@ -1,0 +1,296 @@
+/**
+ * Estilos da vista “Em Lista” do Calendário.
+ * Cabeçalho, período De/Até, chips, busca e empty state.
+ */
+
+.cal-lista-view {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 8px 4px 24px;
+  min-height: 100%;
+}
+
+.cal-lista-head {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.cal-lista-ico {
+  width: 40px;
+  height: 40px;
+  border-radius: 99px;
+  background: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #3c4043;
+}
+
+.cal-lista-ico svg {
+  width: 20px;
+  height: 20px;
+}
+
+.cal-lista-head h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #3c4043;
+  white-space: nowrap;
+}
+
+.cal-lista-line {
+  flex: 1;
+  height: 1px;
+  background: var(--muted);
+  border-radius: 5px;
+  min-width: 24px;
+}
+
+.cal-lista-periodo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 15px;
+}
+
+.cal-lista-lab {
+  font-size: 16px;
+  font-weight: 500;
+  color: #3c4043;
+}
+
+.cal-lista-date {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 200px;
+  max-width: 360px;
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #111224;
+  cursor: pointer;
+  background: #fff;
+  isolation: isolate;
+}
+
+.cal-lista-date span,
+.cal-lista-date svg {
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
+}
+
+.cal-lista-date span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+.cal-lista-date svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #111224;
+}
+
+.cal-lista-date input[type='date'] {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  /* 0.01: browsers bloqueiam clique em opacity:0 + showPicker */
+  opacity: 0.01;
+  cursor: pointer;
+  background: transparent;
+  color: transparent;
+  font-size: 16px; /* evita zoom iOS */
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+}
+
+/* Chrome/Edge: indicator cobre o label — dispara o picker nativo */
+.cal-lista-date input[type='date']::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0.01;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.cal-lista-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.cal-lista-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cal-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  border-radius: 99px;
+  padding: 8px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3c4043;
+  cursor: pointer;
+}
+
+.cal-chip.is-active {
+  background: var(--muted);
+}
+
+.cal-chip-n {
+  min-width: 32px;
+  padding: 3px;
+  border-radius: 99px;
+  background: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  color: #9aa0a6;
+  text-align: center;
+}
+
+.cal-chip.is-active .cal-chip-n {
+  background: #111224;
+  color: #fff;
+}
+
+.cal-lista-search-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  flex: 1;
+}
+
+.cal-lista-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 220px;
+  max-width: 320px;
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 0 15px 0 0;
+  background: #fff;
+}
+
+.cal-lista-search input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  padding: 10px 6px 10px 15px;
+  outline: none;
+  color: #3c4043;
+}
+
+.cal-lista-search svg {
+  width: 18px;
+  height: 18px;
+  color: #3c4043;
+  flex-shrink: 0;
+}
+
+.cal-lista-filtros {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  padding: 10px 15px;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  color: #3c4043;
+  cursor: pointer;
+}
+
+.cal-lista-filtros svg {
+  width: 18px;
+  height: 18px;
+}
+
+.cal-lista-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 80px 0;
+  text-align: center;
+}
+
+.cal-lista-empty-art {
+  width: 100px;
+  height: 100px;
+  color: #3c4043;
+  opacity: 0.9;
+}
+
+.cal-lista-empty-art svg {
+  width: 100%;
+  height: 100%;
+}
+
+.cal-lista-empty p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3c4043;
+  max-width: 320px;
+}
+
+.cal-lista-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 900px;
+}
+
+@media (max-width: 720px) {
+  .cal-lista-periodo {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cal-lista-date {
+    max-width: none;
+  }
+}

@@ -1,0 +1,287 @@
+/**
+ * Sheet de Tarefas: overlay, cabeçalho, filtros e cards.
+ * Form e calendário ficam em arquivos irmãos.
+ */
+
+.tarefas-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgb(0 0 0 / 80%);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tarefas-sheet {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  height: 100%;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  box-shadow: -8px 0 24px rgb(0 0 0 / 15%);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  animation: tarefas-in 0.14s ease-out;
+}
+
+.tarefas-sheet.is-wide {
+  max-width: 64rem;
+}
+
+@keyframes tarefas-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.tarefas-close {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  border: none;
+  background: transparent;
+  opacity: 0.7;
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--foreground);
+}
+
+.tarefas-close:hover {
+  opacity: 1;
+}
+
+.tarefas-close svg {
+  width: 16px;
+  height: 16px;
+}
+
+.tarefas-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-right: 28px;
+  flex-shrink: 0;
+}
+
+.tarefas-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tarefas-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.tarefas-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1px solid var(--input);
+  border-radius: 6px;
+  background: var(--background);
+  font-size: 12px;
+}
+
+.tarefas-sort svg {
+  width: 12px;
+  height: 12px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.tarefas-sort select {
+  border: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  outline: none;
+  max-width: 100px;
+}
+
+.tarefas-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 0;
+  flex-shrink: 0;
+}
+
+.btn-pill {
+  height: 36px;
+  padding: 0 12px;
+  font-size: 12px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--foreground);
+}
+
+.btn-pill.is-active {
+  background: var(--primary);
+  color: #fff;
+  border-color: transparent;
+}
+
+.tarefas-lista-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 4px;
+}
+
+.tarefas-vazio {
+  margin: 24px 0;
+  text-align: center;
+  color: var(--muted-foreground);
+  font-size: 14px;
+}
+
+.tarefa-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.tarefa-card:hover {
+  background: color-mix(in srgb, var(--muted) 30%, transparent);
+}
+
+.tarefa-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.tarefa-card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.tarefa-card-titulo {
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tarefa-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.tarefa-badge.is-vencida {
+  background: color-mix(in srgb, #ef4444 15%, transparent);
+  color: #dc2626;
+  border-color: color-mix(in srgb, #ef4444 30%, transparent);
+}
+
+.tarefa-badge.is-ok {
+  background: color-mix(in srgb, #10b981 15%, transparent);
+  color: #059669;
+  border-color: color-mix(in srgb, #10b981 30%, transparent);
+}
+
+.tarefa-badge.is-pendente,
+.tarefa-badge.is-andamento {
+  background: var(--muted);
+  color: var(--muted-foreground);
+  border-color: var(--border);
+}
+
+.tarefa-card-desc {
+  margin: 0 0 4px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tarefa-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+
+.tarefa-card-meta svg {
+  width: 12px;
+  height: 12px;
+}
+
+.tarefa-card-acoes {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tarefa-acao {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.tarefa-acao svg {
+  width: 14px;
+  height: 14px;
+}
+
+.tarefa-acao.is-ok {
+  color: #059669;
+}
+
+.tarefa-acao.is-ok:hover {
+  background: #ecfdf5;
+}
+
+.tarefa-acao.is-danger {
+  color: #dc2626;
+}
+
+.tarefa-acao.is-danger:hover {
+  background: #fef2f2;
+}

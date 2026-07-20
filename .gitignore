@@ -1,0 +1,22 @@
+# Dependências e builds
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# Secrets e ambiente local
+.env
+.env.*
+!.env.example
+.temporario.env
+
+# Logs e temporários
+*.log
+logs.txt
+.eslintcache
+.DS_Store
+.vscode/
+.idea/
+
+# Dados runtime locais
+data/

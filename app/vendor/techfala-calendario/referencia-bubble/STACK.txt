@@ -1,0 +1,44 @@
+STACK TECHFALA — regra para nova aba/ferramenta
+==============================================
+
+STACK OBRIGATÓRIA
+- Vite + React 19 + TypeScript
+- CSS puro modular (sem Tailwind, sem shadcn, sem libs de UI)
+- Ícones SVG locais em src/shared/icons.tsx (sem lucide-react)
+- Alias @ → src/
+- Persistência: localStorage via src/shared/lib/storage.ts
+- Idioma: português do Brasil (código, UI, comentários, READMEs)
+
+ONDE CRIAR A NOVA ABA
+1. Item em src/features/shell/navItems.tsx (id + label + ícone)
+2. Rota/página em src/app/App.tsx (PlaceholderPage → página real)
+3. Feature nova: src/features/<nome>/
+4. Estilos: src/styles/<nome>.css + import em app.css
+5. README.md em cada pasta nova (1 bloco curto: pra que serve)
+
+PADRÃO DE PASTA (feature)
+src/features/<nome>/
+  README.md
+  <Nome>Page.tsx          — página da aba
+  components/             — UI pequena e específica
+  store/                  — estado + persistência (se precisar)
+  types.ts                — tipos do domínio
+  (helpers em arquivos .ts separados)
+
+REGRAS DE CÓDIGO (NÃO NEGOCIÁVEL)
+- Máximo 300 linhas por arquivo
+- Funções pequenas e modularizadas
+- Cabeçalho de 3–5 linhas no topo: POR QUE o arquivo existe
+- Vibecode first: agente sem contexto deve manter sozinho
+- Sem embed de HTML/dump: refatore em componentes
+- Copie o padrão do CRM (tarefas/, campos/, contato/) — sheets laterais = overlay + panel
+
+O QUE NÃO USAR
+- Tailwind / libs de componente
+- Dependências novas sem necessidade clara
+- Arquivos gigantes / lógica misturada na página
+- Commit de .env ou secrets
+
+REFERÊNCIA VIVA
+Repo: https://github.com/eduardolimasanjaworks/crm-techfala
+Espelhe: shell + features/crm (store, CSS modular, sidebars)
