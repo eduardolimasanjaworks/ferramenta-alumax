@@ -17,6 +17,8 @@ export function formVazio(): Partial<Campanha> & {
     tag: '',
     instancia: '',
     modo: 'livre',
+    metaTemplateName: '',
+    metaTemplateLang: 'pt_BR',
     mensagens: [novaMsg()],
     delayMinSec: 30,
     delayMaxSec: 120,

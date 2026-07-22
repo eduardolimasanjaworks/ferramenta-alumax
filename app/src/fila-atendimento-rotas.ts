@@ -33,8 +33,8 @@ async function exigirAdmin(req: FastifyRequest, reply: FastifyReply) {
 }
 
 export async function rotasFilaAtendimento(app: FastifyInstance): Promise<void> {
-  await inicializarFilaAtendimento();
-  await inicializarFilaConfig();
+  await inicializarFilaAtendimento().catch((e) => console.warn('[fila] db offline:', e.message));
+  await inicializarFilaConfig().catch((e) => console.warn('[fila-config] db offline:', e.message));
 
   app.get('/api/ia/fila-atendimento', async () => {
     const habilitada = await filaAtendimentoHabilitada();

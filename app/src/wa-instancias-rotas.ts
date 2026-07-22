@@ -19,6 +19,7 @@ import {
   listarWaInstancias,
   upsertWaInstancia,
 } from './wa-instancias-store.js';
+import { salvarMetaConfig } from './meta-config.js';
 
 function slugNome(raw: string): string {
   return raw
@@ -55,15 +56,56 @@ export async function rotasWaInstanciasCrud(app: FastifyInstance): Promise<void>
         label?: string;
         inbox_name?: string;
         provider?: string;
+        /** 'WHATSAPP-BAILEYS' (default) ou 'WHATSAPP-BUSINESS' (API Oficial Meta) */
+        integration?: string;
+        /** Meta Cloud API: Phone Number ID */
+        phone_number_id?: string;
+        /** Meta Cloud API: Access Token */
+        access_token?: string;
+        /** Meta Cloud API: Business Account ID */
+        business_account_id?: string;
       };
-      const base = slugNome(String(body.nome || body.label || ''));
-      if (!base) return reply.code(400).send({ ok: false, erro: 'Informe nome ou label' });
+      
+      let base = slugNome(String(body.nome || body.label || ''));
+      if (!base && body.integration !== 'WHATSAPP-BUSINESS') {
+        return reply.code(400).send({ ok: false, erro: 'Informe nome ou label' });
+      }
 
       const provider = body.provider === 'uazapi' ? 'uazapi' : 'evolution';
       if (provider === 'uazapi') {
         return reply.code(400).send({
           ok: false,
           erro: 'UazAPI usa a linha atendimento do .env — crie linhas Evolution aqui',
+        });
+      }
+
+      const integration = body.integration === 'WHATSAPP-BUSINESS'
+        ? 'WHATSAPP-BUSINESS' as const
+        : 'WHATSAPP-BAILEYS' as const;
+
+      if (integration === 'WHATSAPP-BUSINESS') {
+        const phoneId = body.phone_number_id || config.metaPhoneNumberId;
+        const accessToken = body.access_token || config.metaAccessToken;
+        const businessId = body.business_account_id || config.metaBusinessAccountId;
+
+        if (!phoneId || !accessToken || !businessId) {
+          return reply.code(400).send({
+            ok: false,
+            erro: 'Para API Oficial Meta, informe Phone Number ID, Access Token e Business Account ID',
+          });
+        }
+        
+        body.phone_number_id = phoneId;
+        body.access_token = accessToken;
+        
+        // Auto-generate name if empty for Meta
+        if (!base) {
+          base = `oficial-meta-${Date.now().toString().slice(-6)}`;
+        }
+
+        // Salvar as configurações no DB
+        await salvarMetaConfig(phoneId, accessToken, businessId).catch(e => {
+          console.error('[wa-instancias] Erro ao salvar configs no banco:', e);
         });
       }
 
@@ -78,11 +120,14 @@ export async function rotasWaInstanciasCrud(app: FastifyInstance): Promise<void>
         instanceName: nome,
         webhookUrl: webhook,
         inboxName: inbox,
+        integration,
+        phoneNumberId: body.phone_number_id,
+        accessToken: body.access_token,
       });
 
       const row = await upsertWaInstancia({
         nome,
-        label,
+        label: integration === 'WHATSAPP-BUSINESS' ? `${label} (API Oficial)` : label,
         provider: 'evolution',
         chatwoot_inbox_name: inbox,
         webhook_url: webhook,

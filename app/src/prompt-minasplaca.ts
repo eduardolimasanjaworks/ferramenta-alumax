@@ -55,8 +55,21 @@ export async function inicializarBancoPrompt(): Promise<void> {
 }
 
 export async function obterPromptBruto(): Promise<string> {
-  const res = await pool.query('SELECT valor FROM configuracao WHERE chave = $1', ['prompt_sistema']);
-  return (res.rows[0]?.valor as string) ?? PROMPT_PADRAO;
+  try {
+    const res = await pool.query('SELECT valor FROM configuracao WHERE chave = $1', ['prompt_sistema']);
+    if (res.rows[0]?.valor) return res.rows[0].valor as string;
+  } catch {}
+  try {
+    const caminhos = [
+      resolve(process.cwd(), '../prompt-cliente.txt'),
+      resolve(process.cwd(), './prompt-cliente.txt'),
+      resolve(process.cwd(), './data/prompt-cliente.txt')
+    ];
+    for (const c of caminhos) {
+      if (existsSync(c)) return readFileSync(c, 'utf-8');
+    }
+  } catch {}
+  return PROMPT_PADRAO;
 }
 
 export async function salvarPrompt(prompt: string): Promise<void> {

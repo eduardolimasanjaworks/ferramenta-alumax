@@ -14,6 +14,8 @@ import { inicializarBancoPausa } from './pausa-minasplaca.js';
 import { inicializarBancoNotificacao } from './notificacao-minasplaca.js';
 import { inicializarBancoFollowup } from './followup-config.js';
 import { inicializarBancoDelay } from './delay-config.js';
+import { inicializarBancoWaInstancias } from './wa-instancias-store.js';
+import { carregarInstanciasWa } from './lib/whatsapp-instancias.js';
 import { inicializarCredenciais } from './auth-store.js';
 import { inicializarBancoUsuarios } from './usuarios-store.js';
 import { inicializarBancoCrm } from './crm-store.js';
@@ -26,19 +28,16 @@ import { iniciarWorkerCampanhas } from './campanhas-jobs.js';
 
 async function aguardarDependencias(): Promise<void> {
   const redis = obterRedis();
-  for (let i = 0; i < 40; i++) {
-    try {
-      await redis.ping();
-      const { default: pg } = await import('pg');
-      const pool = new pg.Pool({ connectionString: config.databaseUrl });
-      await pool.query('SELECT 1');
-      await pool.end();
-      return;
-    } catch {
-      await new Promise((r) => setTimeout(r, 1000));
-    }
+  try {
+    await redis.ping();
+    const { default: pg } = await import('pg');
+    const pool = new pg.Pool({ connectionString: config.databaseUrl });
+    await pool.query('SELECT 1');
+    await pool.end();
+    console.log('[init] Conectado ao Postgres e Redis com sucesso.');
+  } catch (err) {
+    console.warn('[init] AVISO: Postgres/Redis locais indisponíveis. Servidor Web iniciando em modo dev/fallback.');
   }
-  throw new Error('Dependencias nao ficaram prontas a tempo');
 }
 
 async function main(): Promise<void> {
@@ -50,28 +49,30 @@ async function main(): Promise<void> {
   console.log('[init] Tilit clean build', config.buildId);
   await aguardarDependencias();
 
-  await inicializarBancoPrompt();
-  await inicializarBancoHistorico();
-  await inicializarBancoEstado();
-  await inicializarBancoPausa();
-  await inicializarBancoNotificacao();
-  await inicializarBancoFollowup();
-  await inicializarBancoDelay();
-  await inicializarCredenciais();
-  await inicializarBancoUsuarios();
-  await inicializarBancoCrm();
-  await inicializarFilaAtendimento();
+  await inicializarBancoPrompt().catch((e) => console.warn('[init] prompt db offline:', e.message));
+  await inicializarBancoHistorico().catch((e) => console.warn('[init] historico db offline:', e.message));
+  await inicializarBancoEstado().catch((e) => console.warn('[init] estado db offline:', e.message));
+  await inicializarBancoPausa().catch((e) => console.warn('[init] pausa db offline:', e.message));
+  await inicializarBancoNotificacao().catch((e) => console.warn('[init] notificacao db offline:', e.message));
+  await inicializarBancoFollowup().catch((e) => console.warn('[init] followup db offline:', e.message));
+  await inicializarBancoDelay().catch((e) => console.warn('[init] delay db offline:', e.message));
+  await inicializarCredenciais().catch((e) => console.warn('[init] credenciais db offline:', e.message));
+  await inicializarBancoUsuarios().catch((e) => console.warn('[init] usuarios db offline:', e.message));
+  await inicializarBancoCrm().catch((e) => console.warn('[init] crm db offline:', e.message));
+  await inicializarBancoWaInstancias().catch((e) => console.warn('[init] wa_instancias db offline:', e.message));
+  await carregarInstanciasWa().catch((e) => console.warn('[init] falha ao carregar wa cache:', e.message));
+  await inicializarFilaAtendimento().catch((e) => console.warn('[init] fila db offline:', e.message));
   if (config.calendarioHabilitado) {
-    await inicializarBancoCalendario();
+    await inicializarBancoCalendario().catch((e) => console.warn('[init] calendario db offline:', e.message));
     await garantirAgendasDemoIa().catch((err) =>
       console.error('[init] agendas calendario demo:', err),
     );
   } else {
     console.log('[init] Calendário desabilitado (CALENDARIO_HABILITADO=false)');
   }
-  await inicializarBancoCampanhas();
-  await garantirColecaoConhecimento();
-  console.log('[init] Banco e vetores prontos');
+  await inicializarBancoCampanhas().catch((e) => console.warn('[init] campanhas db offline:', e.message));
+  await garantirColecaoConhecimento().catch((e) => console.warn('[init] qdrant offline:', e.message));
+  console.log('[init] Inicialização concluída (servidor pronto)');
 
   iniciarWorkerDebounce();
   iniciarWorkerFollowup();

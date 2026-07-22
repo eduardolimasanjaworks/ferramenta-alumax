@@ -9,6 +9,7 @@ import { config } from './config.js';
 import { rotasWebhook } from './webhook-evolution.js';
 import { rotasWebhookChatwoot } from './webhook-chatwoot.js';
 import { rotasWebhookUazapi } from './webhook-uazapi.js';
+import { rotasWebhookMeta } from './webhook-meta.js';
 import { rotasChatwootSso } from './chatwoot-sso.js';
 import { rotasPainelEventos } from './painel-eventos.js';
 import { rotasSaude } from './saude-minasplaca.js';
@@ -28,6 +29,7 @@ import { mensagemPublicaAtendimento } from './mensagens-publicas.js';
 import { rotasUsuariosPainel } from './usuarios-rotas.js';
 import { rotasCrm } from './crm-rotas.js';
 import { rotasWhatsappPainel } from './whatsapp-rotas.js';
+import { rotasWaInstanciasCrud } from './wa-instancias-rotas.js';
 import { rotasFilaAtendimento } from './fila-atendimento-rotas.js';
 import { rotasCalendario } from './calendario-rotas.js';
 import { rotasCampanhas } from './campanhas-rotas.js';
@@ -35,7 +37,7 @@ import { rotasCampanhas } from './campanhas-rotas.js';
 const PAGINA_LOGIN = `<!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TechFala — Acesso</title>
+<title>Alumax — Acesso</title>
 <link rel="icon" type="image/png" href="/assets/favicon.png">
 <style>
   :root { --brand: #111224; --brand2: #1e2140; --accent: #ff2e88; }
@@ -53,7 +55,7 @@ const PAGINA_LOGIN = `<!DOCTYPE html>
   }
   .pcanvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; }
   .side .center, .side .legal { position: relative; z-index: 1; }
-  .brand-logo { width: 210px; max-width: 62%; margin: 0 auto 8px; display: block; }
+  .brand-logo { width: 210px; max-width: 62%; margin: 0 auto 8px; display: block; border-radius: 12px; }
   .center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; max-width: 460px; }
   .slide { display: none; }
   .slide.active { display: block; animation: fade .6s ease; }
@@ -69,7 +71,7 @@ const PAGINA_LOGIN = `<!DOCTYPE html>
   /* Painel direito (form) */
   .panel { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; background: #fff; }
   .card { width: 100%; max-width: 380px; }
-  .card-logo { width: 54px; height: 54px; object-fit: contain; display: block; margin: 0 auto 14px; }
+  .card-logo { width: 54px; height: 54px; object-fit: contain; display: block; margin: 0 auto 14px; border-radius: 8px; }
   .card h1 { font-size: 22px; margin: 0 0 6px; text-align: center; }
   .card .sub { color: #666; font-size: 14px; margin-bottom: 22px; text-align: center; }
   .tabs { display: flex; gap: 6px; background: #f1f2f5; border-radius: 10px; padding: 5px; margin-bottom: 24px; }
@@ -103,7 +105,7 @@ const PAGINA_LOGIN = `<!DOCTYPE html>
     <div class="side">
       <canvas id="particles" class="pcanvas"></canvas>
       <div class="center">
-        <img class="brand-logo" src="https://xltw-api6-8lww.b2.xano.io/vault/4kRWyNwe/QezP_u6Ao3VM3NmOboZ2I76BdTg/-rHoZw../logotipo+%2811%29.png" alt="TechFala">
+        <img class="brand-logo" src="/assets/logo-alumax.png" alt="Alumax">
         <div class="slide" data-slide>
           <h2>Não somos um chatbot, somos o futuro</h2>
           <p>Utilize a nossa solução inteligente para transformar a comunicação da sua empresa com atendimento de qualidade e eficiência.</p>
@@ -118,13 +120,13 @@ const PAGINA_LOGIN = `<!DOCTYPE html>
         </div>
         <div class="dots" id="dots"></div>
       </div>
-      <div class="legal">Este site é regido pelas <a href="/termos.html" target="_blank" rel="noopener">Políticas de Privacidades</a> e pelas <a href="/termos.html" target="_blank" rel="noopener">Termos de Serviços.</a></div>
+      <div class="legal">Este site é regido pelas <a href="/privacidade.html" target="_blank" rel="noopener">Políticas de Privacidades</a> e pelas <a href="/termos.html" target="_blank" rel="noopener">Termos de Serviços.</a></div>
     </div>
 
     <div class="panel">
       <form class="card" onsubmit="entrar(event)">
-        <img class="card-logo" src="https://xltw-api6-8lww.b2.xano.io/vault/4kRWyNwe/uCvgJQ866Y83SgLRht-OpKfZ_MI/248OYQ../TechFala+%281%29.png" alt="TechFala">
-        <h1>Bem-vindo(a) de volta a TechFala</h1>
+        <img class="card-logo" src="/assets/logo-alumax.png" alt="Alumax">
+        <h1>Bem-vindo(a) de volta a Alumax</h1>
         <div class="sub">Digite as suas credenciais de login para continuar</div>
 
         <div class="tabs">
@@ -454,11 +456,13 @@ export async function criarServidor() {
   await app.register(rotasWebhook);
   await app.register(rotasWebhookChatwoot);
   await app.register(rotasWebhookUazapi);
+  await app.register(rotasWebhookMeta);
   await app.register(rotasPainelEventos);
   await app.register(rotasChatwootSso);
   await app.register(rotasUsuariosPainel);
   await app.register(rotasCrm);
   await app.register(rotasWhatsappPainel);
+  await app.register(rotasWaInstanciasCrud);
   await app.register(rotasFilaAtendimento);
   if (config.calendarioHabilitado) {
     await app.register(rotasCalendario);

@@ -141,6 +141,21 @@ export async function rotasWebhookChatwoot(app: FastifyInstance): Promise<void> 
     });
 
     let telefone = extrairTelefone(payload);
+
+    // Split 3 (API Inbox): Interceptar mensagens enviadas pelo humano no Chatwoot para a Inbox do Meta
+    if (evento === 'message_created' && payload.message_type === 'outgoing') {
+      const inbox = payload.inbox as any;
+      if (inbox && config.chatwootMetaInboxId && inbox.id === config.chatwootMetaInboxId) {
+        const text = payload.content as string;
+        if (telefone && text) {
+          import('./lib/meta-api.js').then(({ enviarMensagemTextoMeta }) => {
+            enviarMensagemTextoMeta(telefone as string, text).catch(err => {
+              console.error('[webhook-chatwoot] Erro ao disparar mensagem de texto pro Meta:', err);
+            });
+          });
+        }
+      }
+    }
     let status = extrairStatus(payload);
     let pausar: boolean | null = null;
     let origemStatusIa = false;

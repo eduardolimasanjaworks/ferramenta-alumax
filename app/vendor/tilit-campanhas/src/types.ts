@@ -21,8 +21,9 @@ export type Campanha = {
   nome: string
   tag: string
   instancia: string
-  /** Sempre mensagem livre (template removido da UI). */
-  modo?: 'livre'
+  modo: 'livre' | 'template' | 'meta_template'
+  metaTemplateName?: string
+  metaTemplateLang?: string
   mensagens: MensagemCampanha[]
   delayMinSec: number
   delayMaxSec: number

@@ -18,6 +18,7 @@ import { cancelarJobsPendentes, criarJobsDisparo } from './campanhas-fila.js';
 import { processarJobsCampanhas } from './campanhas-jobs.js';
 import type { CampanhaRow } from './campanhas-tipos.js';
 import { resolverInstancia } from './whatsapp-rotas.js';
+import { listarTemplatesMeta, criarTemplateMeta } from './lib/meta-api.js';
 
 async function exigirLogado(req: FastifyRequest, reply: FastifyReply) {
   const u = await obterUsuarioDaSessao(req);
@@ -35,7 +36,9 @@ function bodyCampanha(raw: unknown): Partial<CampanhaRow> & { nome: string } {
     nome: String(b.nome || '').trim(),
     tag: b.tag != null ? String(b.tag) : undefined,
     instancia: b.instancia != null ? String(b.instancia) : undefined,
-    modo: 'livre',
+    modo: (b.modo === 'template' ? 'template' : b.modo === 'meta_template' ? 'meta_template' : 'livre') as 'livre' | 'template' | 'meta_template',
+    metaTemplateName: b.metaTemplateName != null ? String(b.metaTemplateName) : undefined,
+    metaTemplateLang: b.metaTemplateLang != null ? String(b.metaTemplateLang) : undefined,
     mensagens: Array.isArray(b.mensagens)
       ? (b.mensagens as CampanhaRow['mensagens'])
       : undefined,
@@ -50,7 +53,7 @@ function bodyCampanha(raw: unknown): Partial<CampanhaRow> & { nome: string } {
 }
 
 export async function rotasCampanhas(app: FastifyInstance): Promise<void> {
-  await inicializarBancoCampanhas();
+  await inicializarBancoCampanhas().catch((e) => console.warn('[campanhas] db offline:', e.message));
 
   app.get('/api/campanhas', async (req, reply) => {
     if (!(await exigirLogado(req, reply))) return;
@@ -154,5 +157,29 @@ export async function rotasCampanhas(app: FastifyInstance): Promise<void> {
     const q = (req.query ?? {}) as { tag?: string };
     const total = await contarContatosPorTag(String(q.tag || ''));
     return { ok: true, total };
+  });
+
+  // Endpoints para gerenciamento oficial do Meta (WABA)
+  app.get('/api/campanhas/meta-templates', async (req, reply) => {
+    if (!(await exigirLogado(req, reply))) return;
+    try {
+      const templates = await listarTemplatesMeta();
+      return { ok: true, templates };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      return reply.code(400).send({ ok: false, erro: msg });
+    }
+  });
+
+  app.post('/api/campanhas/meta-templates', async (req, reply) => {
+    if (!(await exigirLogado(req, reply))) return;
+    const body = (req.body ?? {}) as { name: string; category: 'MARKETING' | 'UTILITY'; text: string; language?: string };
+    try {
+      const res = await criarTemplateMeta(body.name, body.category, body.text, body.language);
+      return { ok: true, resultado: res };
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      return reply.code(400).send({ ok: false, erro: msg });
+    }
   });
 }

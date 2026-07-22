@@ -76,7 +76,8 @@ export function invalidarCacheWaInstancias(): void {
 }
 
 export function resolverMetaInstancia(raw?: string | null): WaInstanciaMeta {
-  const lista = listaInstanciasWa();
+  const lista = cacheAsync && cacheAsync.length > 0 ? cacheAsync : listaInstanciasWa();
+  
   if (!lista.length) throw new Error('nenhuma_instancia_whatsapp');
 
   const pedida = String(raw || '').trim().toLowerCase();

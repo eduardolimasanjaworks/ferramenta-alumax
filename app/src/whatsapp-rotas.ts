@@ -34,16 +34,7 @@ function metaDoReq(req: FastifyRequest) {
 }
 
 export async function rotasWhatsappPainel(app: FastifyInstance): Promise<void> {
-  app.get('/api/whatsapp/instancias', async () => {
-    const lista = listaInstanciasWa();
-    return {
-      ok: true,
-      instances: lista.map((i) => i.name),
-      meta: lista,
-      default: lista[0]?.name,
-      labels: lista.map((i) => ({ name: i.name, label: i.label, provider: i.provider })),
-    };
-  });
+  // O GET /api/whatsapp/instancias foi movido para wa-instancias-rotas.ts
 
   app.get('/api/whatsapp/status', async (req, reply) => {
     try {

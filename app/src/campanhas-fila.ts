@@ -71,6 +71,9 @@ export type JobPendente = {
   usarHorarios: boolean;
   horarioInicio: string | null;
   horarioFim: string | null;
+  modo: 'livre' | 'template' | 'meta_template';
+  metaTemplateName?: string;
+  metaTemplateLang?: string;
 };
 
 export { estaDentroHorario, minutosAgoraBrasilia } from './campanhas-horario.js';
@@ -82,7 +85,8 @@ export async function claimJobsPendentes(limite = 5): Promise<JobPendente[]> {
     await client.query('BEGIN');
     const { rows } = await client.query(
       `SELECT j.id, j.campanha_id, j.telefone, j.mensagem_idx,
-              c.instancia, c.mensagens, c.usar_horarios, c.horario_inicio, c.horario_fim
+              c.instancia, c.mensagens, c.usar_horarios, c.horario_inicio, c.horario_fim,
+              c.modo, c.meta_template_name, c.meta_template_lang
        FROM campanha_jobs j
        JOIN campanhas c ON c.id = j.campanha_id
        WHERE j.status = 'pendente'
@@ -123,6 +127,9 @@ export async function claimJobsPendentes(limite = 5): Promise<JobPendente[]> {
         usarHorarios: Boolean(r.usar_horarios),
         horarioInicio: r.horario_inicio ? String(r.horario_inicio) : null,
         horarioFim: r.horario_fim ? String(r.horario_fim) : null,
+        modo: (r.modo === 'template' ? 'template' : r.modo === 'meta_template' ? 'meta_template' : 'livre') as 'livre' | 'template' | 'meta_template',
+        metaTemplateName: r.meta_template_name ? String(r.meta_template_name) : undefined,
+        metaTemplateLang: r.meta_template_lang ? String(r.meta_template_lang) : undefined,
       });
     }
     await client.query('COMMIT');

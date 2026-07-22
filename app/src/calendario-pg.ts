@@ -55,18 +55,22 @@ export async function inicializarBancoCalendario(): Promise<void> {
 }
 
 export async function obterEstadoCalendario(): Promise<CalEstado> {
-  const { rows } = await pool.query<{ payload: CalEstado; atualizado_em: Date }>(
-    `SELECT payload, atualizado_em FROM cal_estado WHERE id = 1`,
-  );
-  const p = rows[0]?.payload ?? ESTADO_VAZIO;
-  return {
-    agendas: Array.isArray(p.agendas) ? p.agendas : [],
-    eventos: Array.isArray(p.eventos) ? p.eventos : [],
-    recursos: Array.isArray(p.recursos) ? p.recursos : [],
-    servicos: Array.isArray(p.servicos) ? p.servicos : [],
-    vinculos: p.vinculos && typeof p.vinculos === 'object' ? p.vinculos : {},
-    atualizado_em: rows[0]?.atualizado_em?.toISOString(),
-  };
+  try {
+    const { rows } = await pool.query<{ payload: CalEstado; atualizado_em: Date }>(
+      `SELECT payload, atualizado_em FROM cal_estado WHERE id = 1`,
+    );
+    const p = rows[0]?.payload ?? ESTADO_VAZIO;
+    return {
+      agendas: Array.isArray(p.agendas) ? p.agendas : [],
+      eventos: Array.isArray(p.eventos) ? p.eventos : [],
+      recursos: Array.isArray(p.recursos) ? p.recursos : [],
+      servicos: Array.isArray(p.servicos) ? p.servicos : [],
+      vinculos: p.vinculos && typeof p.vinculos === 'object' ? p.vinculos : {},
+      atualizado_em: rows[0]?.atualizado_em?.toISOString(),
+    };
+  } catch {
+    return ESTADO_VAZIO;
+  }
 }
 
 export async function salvarEstadoCalendario(estado: CalEstado): Promise<CalEstado> {

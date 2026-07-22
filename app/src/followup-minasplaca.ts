@@ -207,7 +207,9 @@ export function iniciarWorkerFollowup(intervaloMs = 10000): void {
         }
       }
     } catch (err) {
-      console.error('[followup] erro no tick do worker de follow-up:', err);
+      console.warn('[followup] worker pausado (redis offline)');
+      setTimeout(tick, 10000);
+      return;
     }
     setTimeout(tick, intervaloMs);
   }

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidade · TechFala / Sanjaworks (LGPD & Meta Approved)</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #111224;
+            --primary-light: #1e2140;
+            --accent: #25d366;
+            --text: #2d3748;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --important-bg: #eff6ff;
+            --important-border: #3b82f6;
+            --warning-bg: #fffbeb;
+            --warning-border: #f59e0b;
+            --meta-bg: #f0fdf4;
+            --meta-border: #16a34a;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border: 1px solid var(--border);
+        }
+
+        .header {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.1em;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+        }
+
+        .date-info {
+            font-size: 0.9em;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .intro-text {
+            background-color: #f1f5f9;
+            padding: 22px 26px;
+            border-radius: 10px;
+            font-size: 1.05em;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.35em;
+            font-weight: 600;
+            margin-top: 36px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-number {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85em;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .config-section {
+            background-color: #ffffff;
+            border: 1px solid var(--border);
+            padding: 24px;
+            margin-bottom: 24px;
+            border-radius: 10px;
+        }
+
+        .meta-box {
+            background-color: var(--meta-bg);
+            border-left: 5px solid var(--meta-border);
+            padding: 18px 20px;
+            margin: 18px 0;
+            border-radius: 6px;
+        }
+
+        .important-note {
+            background-color: var(--important-bg);
+            border-left: 5px solid var(--important-border);
+            padding: 18px 20px;
+            margin: 18px 0;
+            border-radius: 6px;
+        }
+
+        .execution-tool {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary-light);
+            padding: 16px 20px;
+            margin: 16px 0;
+            border-radius: 6px;
+        }
+
+        .execution-tool h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.1em;
+            color: var(--primary);
+        }
+
+        ul { margin: 12px 0; padding-left: 24px; }
+        li { margin-bottom: 8px; }
+        strong { color: #1e293b; }
+        a { color: #2563eb; text-decoration: none; font-weight: 600; }
+        a:hover { text-decoration: underline; }
+
+        .footer-info {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.9em;
+            color: #64748b;
+        }
+
+        @media (max-width: 640px) {
+            .container { padding: 24px 16px; }
+            h1 { font-size: 1.6em; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔒 Política de Privacidade de Dados</h1>
+        <div class="date-info">
+            <p><strong>Última atualização:</strong> 21 de Julho de 2026 | Em conformidade com a LGPD (Lei nº 13.709/2018) e Meta Developer Data Policies</p>
+        </div>
+    </div>
+
+    <div class="intro-text">
+        <p>A <strong>TechFala / Sanjaworks Soluções Tecnológicas</strong> assume o compromisso de respeitar e proteger a privacidade e os dados pessoais de todos os seus contratantes e usuários finais. Esta Política de Privacidade descreve como coletamos, utilizamos, armazenamos, tratamos e protegemos as informações pessoais em nossa plataforma de automação, Inteligência Artificial e integração com APIs (incluindo as APIs da Meta/WhatsApp).</p>
+    </div>
+
+    <!-- SEÇÃO 1 -->
+    <h2><span class="step-number">1</span>Dados Pessoais Coletados</h2>
+    <div class="config-section">
+        <p>Para a prestação dos serviços de comunicação e atendimento, coletamos e processamos as seguintes categorias de dados:</p>
+        <ul>
+            <li><strong>Dados Cadastrais da Empresa Contratante:</strong> Nome corporativo, CNPJ/CPF, e-mail de contato, credenciais de acesso criptografadas e dados de faturamento;</li>
+            <li><strong>Dados de Comunicação e Atendimento (WhatsApp):</strong> Número de telefone, nome de perfil do WhatsApp, histórico de mensagens trocadas, mídias enviadas, etiquetas de atendimento e dados de agendamento;</li>
+            <li><strong>Dados Técnicos de Navegação:</strong> Endereço IP, registros de acesso (logs), tipo de navegador, sistema operacional e cookies essenciais de sessão.</li>
+        </ul>
+    </div>
+
+    <!-- SEÇÃO 2 -->
+    <h2><span class="step-number">2</span>Finalidade do Tratamento de Dados</h2>
+    <div class="config-section">
+        <p>O tratamento de dados pessoais fundamenta-se nas bases legais da LGPD (Art. 7º, incisos I, II e V) e destina-se exclusivamente às seguintes finalidades:</p>
+        <div class="execution-tool">
+            <h3>2.1 Prestação dos Serviços de Atendimento e Automação</h3>
+            <p>Permitir o envio e recepção de mensagens automatizadas, qualificação de atendimento via Inteligência Artificial, roteamento de chamados a atendentes humanos e gestão de CRM.</p>
+        </div>
+        <div class="execution-tool">
+            <h3>2.2 Integração com Plataformas de Mensageria (Meta/WhatsApp API)</h3>
+            <p>Conectar a conta do cliente às APIs oficiais e parceiras de mensageria para possibilitar o diálogo em tempo real com seus consumidores.</p>
+        </div>
+        <div class="execution-tool">
+            <h3>2.3 Segurança, Prevenção à Fraude e Suporte Técnico</h3>
+            <p>Garantir a integridade da plataforma, monitorar atividades suspeitas e fornecer assistência técnica aos usuários.</p>
+        </div>
+    </div>
+
+    <!-- SEÇÃO 3 -->
+    <h2><span class="step-number">3</span>Compartilhamento de Dados com Terceiros</h2>
+    <div class="config-section">
+        <p>Não vendemos, alugamos nem comercializamos dados pessoais com terceiros. O compartilhamento ocorre estritamente no limite necessário para a operação do sistema:</p>
+        <ul>
+            <li><strong>Meta Platforms, Inc. (WhatsApp Business API / Graph API):</strong> Para transmissão e entrega das mensagens solicitadas pelo usuário;</li>
+            <li><strong>Provedores de Infraestrutura em Nuvem:</strong> Servidores de hospedagem, banco de dados e processamento com altos padrões de segurança e criptografia;</li>
+            <li><strong>Autoridades Judiciais ou Administrativas:</strong> Exclusivamente mediante ordem judicial válida ou obrigação legal estrita.</li>
+        </ul>
+    </div>
+
+    <!-- SEÇÃO 4 -->
+    <h2><span class="step-number">4</span>Armazenamento, Criptografia e Segurança</h2>
+    <div class="config-section">
+        <p>Empregamos severas medidas técnicas e administrativas para salvaguardar os dados tratados:</p>
+        <ul>
+            <li>Tráfego de dados protegido por criptografia de ponta a ponta em trânsito (HTTPS / TLS 1.3);</li>
+            <li>Isolamento de banco de dados por cliente, impedindo a mistura de informações entre contas;</li>
+            <li>Armazenamento de senhas via hashes criptográficos de alta resistência;</li>
+            <li>Controle estrito de acessos baseado na função do usuário (RBAC).</li>
+        </ul>
+    </div>
+
+    <!-- SEÇÃO 5 (EXIGÊNCIA META & LGPD) -->
+    <h2><span class="step-number">5</span>Direitos dos Titulares de Dados (LGPD)</h2>
+    <div class="config-section">
+        <p>Em conformidade com o Artigo 18 da LGPD, os titulares de dados pessoais possuem os seguintes direitos:</p>
+        <ul>
+            <li>Confirmação da existência de tratamento e acesso aos seus dados;</li>
+            <li>Correção de dados incompletos, inexatos ou desatualizados;</li>
+            <li>Anonimização, bloqueio ou eliminação de dados desnecessários ou excessivos;</li>
+            <li>Portabilidade dos dados a outro fornecedor de serviço;</li>
+            <li>Revogação do consentimento a qualquer momento.</li>
+        </ul>
+    </div>
+
+    <!-- SEÇÃO 6 (DATA DELETION POLICY - META) -->
+    <h2><span class="step-number">6</span>Procedimento de Exclusão de Dados de Usuários (Meta Data Deletion Policy)</h2>
+    <div class="config-section">
+        <div class="meta-box" id="exclusao-de-dados">
+            <h3>6.1 Como Solicitar a Exclusão Definitiva dos Dados</h3>
+            <p>O Usuário Final ou Empresa Licenciada pode solicitar a exclusão integral de seus dados cadastrais, histórico de conversas e credenciais enviando um e-mail para nosso Encarregado de Proteção de Dados (DPO):</p>
+            <p>📧 <strong>E-mail de Privacidade:</strong> <a href="mailto:privacidade@sanjaworks.com">privacidade@sanjaworks.com</a> ou <a href="mailto:suporte@techfala.com.br">suporte@techfala.com.br</a></p>
+            <p><strong>Prazo de Atendimento:</strong> Todas as solicitações de exclusão e expurgo de dados são processadas e confirmadas em até <strong>15 (quinze) dias úteis</strong>, com a remoção irrecuperável de nossos bancos de dados ativos e backups secundários.</p>
+        </div>
+    </div>
+
+    <!-- SEÇÃO 7 -->
+    <h2><span class="step-number">7</span>Contato do Encarregado pelo Tratamento de Dados (DPO)</h2>
+    <div class="config-section">
+        <p>Caso precise exercer seus direitos de privacidade ou esclarecer dúvidas sobre esta Política de Privacidade, entre em contato com nosso Encarregado de Dados:</p>
+        <ul>
+            <li><strong>Encarregado de Proteção de Dados (DPO):</strong> Suporte de Privacidade Sanjaworks</li>
+            <li><strong>E-mail Oficial:</strong> <a href="mailto:privacidade@sanjaworks.com">privacidade@sanjaworks.com</a></li>
+            <li><strong>Atendimento ao Cliente:</strong> <a href="mailto:suporte@techfala.com.br">suporte@techfala.com.br</a></li>
+            <li><strong>Endereço Web Oficial:</strong> <a href="/privacidade.html" target="_blank">/privacidade.html</a></li>
+        </ul>
+    </div>
+
+    <div class="footer-info">
+        <p>&copy; 2026 TechFala · Sanjaworks Soluções Tecnológicas. Todos os direitos reservados. Documento elaborado de acordo com a Lei nº 13.709/2018 (LGPD) e diretrizes da Plataforma Meta.</p>
+    </div>
+</div>
+
+</body>
+</html>

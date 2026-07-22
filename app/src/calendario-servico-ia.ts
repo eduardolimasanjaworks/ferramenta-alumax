@@ -70,10 +70,11 @@ export function acharAgenda(
 
 /** Garante agendas de demo ativas para a IA (idempotente). */
 export async function garantirAgendasDemoIa(): Promise<void> {
-  const estado = await obterEstadoCalendario();
-  const agendas = asAgendas(estado);
-  const ativas = agendas.filter((a) => a.ativo !== false && a.visivel !== false);
-  if (ativas.length >= 2) return;
+  try {
+    const estado = await obterEstadoCalendario();
+    const agendas = asAgendas(estado);
+    const ativas = agendas.filter((a) => a.ativo !== false && a.visivel !== false);
+    if (ativas.length >= 2) return;
 
   const baseCfg = {
     dias: {
@@ -171,6 +172,7 @@ export async function garantirAgendasDemoIa(): Promise<void> {
   ];
 
   await salvarEstadoCalendario({ ...estado, agendas: merged });
+  } catch {}
 }
 
 export async function listarAgendasParaIa(): Promise<

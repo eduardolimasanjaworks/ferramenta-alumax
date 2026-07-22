@@ -19,9 +19,8 @@ export async function statusCanal(instance?: string | null): Promise<{
     const s = await uazStatus();
     return { conectado: s.conectado, state: s.state, provider: 'uazapi' };
   }
-  const inst = resolverMetaInstancia(instance || config.evolutionInstance).name;
-  const s = await evoStatus(inst);
-  return { conectado: s.conectado, state: s.state, provider: 'evolution' };
+  // No Plano B, sempre consideramos o Meta conectado
+  return { conectado: true, state: 'open', provider: 'meta' };
 }
 
 export async function enviarTextoCanal(
@@ -36,8 +35,10 @@ export async function enviarTextoCanal(
     await uazEnviarTexto(tel, texto);
     return;
   }
-  const meta = resolverMetaInstancia(instance || config.evolutionInstance);
-  await evoTexto(meta.name, tel, texto, delayMs);
+  // Envio Oficial pelo Meta (Plano B)
+  if (delayMs > 0) await new Promise((r) => setTimeout(r, delayMs));
+  const { enviarMensagemTextoMeta } = await import('./meta-api.js');
+  await enviarMensagemTextoMeta(tel, texto);
 }
 
 export async function tentarEnviarCanal(

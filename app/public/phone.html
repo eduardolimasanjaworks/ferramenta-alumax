@@ -3363,6 +3363,95 @@
       width: 100%;
       margin: 0;
     }
+    /* --- Tabs QR vs API Oficial --- */
+    .wa-connect-tabs {
+      display: flex;
+      gap: 0;
+      width: calc(100% - 20px);
+      max-width: 290px;
+      margin: 0 10px 14px;
+      border: 2px solid #264143;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 2px 3px 0 #E99F4C;
+    }
+    .wa-connect-tab {
+      flex: 1;
+      padding: 10px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background: #fff;
+      color: #264143;
+      transition: background .2s, color .2s;
+      font-family: inherit;
+      letter-spacing: 0.02em;
+    }
+    .wa-connect-tab + .wa-connect-tab {
+      border-left: 2px solid #264143;
+    }
+    .wa-connect-tab.active {
+      background: #264143;
+      color: #fff;
+    }
+    .wa-connect-tab:hover:not(.active) {
+      background: #f0e5e2;
+    }
+    .wa-cloud-form {
+      width: calc(100% - 20px);
+      max-width: 290px;
+      margin: 0 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .wa-cloud-form label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #264143;
+    }
+    .wa-cloud-form input {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #264143;
+      border-radius: 6px;
+      font-size: 13px;
+      background: #fff;
+      color: #264143;
+      box-shadow: 2px 3px 0 #E99F4C;
+      box-sizing: border-box;
+      font-family: inherit;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .wa-cloud-form input:focus {
+      transform: translateY(2px);
+      box-shadow: 1px 1px 0 #E99F4C;
+      outline: none;
+    }
+    .wa-cloud-form input::placeholder { color: #8a9a9c; }
+    .wa-cloud-form .wa-cloud-hint {
+      font-size: 11px;
+      color: #6b7c7e;
+      line-height: 1.4;
+      margin: -4px 0 2px;
+    }
+    .wa-cloud-form .wa-cloud-status {
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      padding: 6px;
+      border-radius: 6px;
+    }
+    .wa-cloud-form .wa-cloud-status.ok {
+      background: #e8f5e9;
+      color: #1a8f4a;
+    }
+    .wa-cloud-form .wa-cloud-status.err {
+      background: #fff5f5;
+      color: #c0392b;
+    }
     .senha-btn-danger {
       padding: 11px;
       font-size: 13px;
@@ -3854,12 +3943,12 @@
     <aside class="sidebar" aria-label="Menu principal">
       <div class="sidebar-inner">
         <div class="sidebar-brand">
-          <div class="sidebar-logo" title="Tilit">
-            <img src="/assets/tilit-logo.png?v=2" alt="Tilit">
+          <div class="sidebar-logo" title="Alumax">
+            <img src="/assets/logo-alumax.png" alt="Alumax">
           </div>
           <div>
             <div class="sidebar-brand-text">Painel IA</div>
-            <div class="sidebar-brand-sub">Tilit</div>
+            <div class="sidebar-brand-sub">Alumax</div>
           </div>
           <button type="button" id="sidebar-recolher" title="Recolher menu (tela cheia no mobile também)" aria-label="Recolher menu" onclick="alternarSidebar(true)">«</button>
         </div>
@@ -4685,31 +4774,72 @@
         <button type="button" class="senha-close" onclick="fecharQR()" aria-label="Fechar">×</button>
         <p class="senha-title" id="modal-qr-title">CONECTAR WHATSAPP</p>
         <p class="senha-account" id="wa-modal-subtitle">WhatsApp · conexão</p>
-        <div id="wa-info-panel" class="wa-info-panel">
-          <div class="wa-info-row">
-            <span>Instância</span>
-            <div class="wa-instance-picker" id="wa-instance-picker">
-              <button type="button" onclick="trocarInstanciaWhatsapp(-1)" aria-label="Instância anterior">‹</button>
-              <select id="wa-instance-select" aria-label="Escolher instância WhatsApp" onchange="onMudarInstanciaWhatsapp()"></select>
-              <button type="button" onclick="trocarInstanciaWhatsapp(1)" aria-label="Próxima instância">›</button>
+        <!-- Tabs: QR Code vs API Oficial -->
+        <div class="wa-connect-tabs" id="wa-connect-tabs">
+          <button type="button" class="wa-connect-tab active" data-mode="qr" onclick="switchWaMode('qr')">📱 QR Code</button>
+          <button type="button" class="wa-connect-tab" data-mode="cloud" onclick="switchWaMode('cloud')">🔗 API Oficial Meta</button>
+        </div>
+        <!-- Painel QR Code (existente) -->
+        <div id="wa-qr-panel">
+          <div id="wa-info-panel" class="wa-info-panel">
+            <div class="wa-info-row">
+              <span>Instância</span>
+              <div class="wa-instance-picker" id="wa-instance-picker">
+                <button type="button" onclick="trocarInstanciaWhatsapp(-1)" aria-label="Instância anterior">‹</button>
+                <select id="wa-instance-select" aria-label="Escolher instância WhatsApp" onchange="onMudarInstanciaWhatsapp()"></select>
+                <button type="button" onclick="trocarInstanciaWhatsapp(1)" aria-label="Próxima instância">›</button>
+              </div>
+            </div>
+            <div class="wa-info-row" style="display:none"><span>Instância</span><strong id="wa-info-instance">—</strong></div>
+            <div class="wa-info-row"><span>Status</span><strong id="wa-info-state">—</strong></div>
+            <div class="wa-info-row"><span>Número</span><strong id="wa-info-phone">—</strong></div>
+            <div class="wa-info-row"><span>Perfil</span><strong id="wa-info-profile">—</strong></div>
+            <div class="wa-info-row"><span>Atendimento</span><strong id="wa-info-inbox">—</strong></div>
+          </div>
+          <div id="qr-box" class="senha-qr-box">
+            <div class="senha-qr-placeholder">Carregando...</div>
+          </div>
+          <p class="senha-account" id="wa-checklist" style="display:none;margin-top:10px;font-size:12px;line-height:1.45"></p>
+          <div class="senha-qr-actions">
+            <div class="senha-qr-actions-grid">
+              <button type="button" class="senha-btn-ghost" onclick="atualizarModalWhatsapp(true)">Atualizar status</button>
+              <button type="button" class="senha-btn-alt" onclick="generateQR('qr-box')">Atualizar QR</button>
+              <button type="button" class="senha-btn-ghost" onclick="reiniciarWhatsapp()">Reiniciar</button>
+              <button type="button" class="senha-btn-danger" onclick="desconectarWhatsapp()">Desconectar</button>
             </div>
           </div>
-          <div class="wa-info-row" style="display:none"><span>Instância</span><strong id="wa-info-instance">—</strong></div>
-          <div class="wa-info-row"><span>Status</span><strong id="wa-info-state">—</strong></div>
-          <div class="wa-info-row"><span>Número</span><strong id="wa-info-phone">—</strong></div>
-          <div class="wa-info-row"><span>Perfil</span><strong id="wa-info-profile">—</strong></div>
-          <div class="wa-info-row"><span>Atendimento</span><strong id="wa-info-inbox">—</strong></div>
         </div>
-        <div id="qr-box" class="senha-qr-box">
-          <div class="senha-qr-placeholder">Carregando...</div>
-        </div>
-        <p class="senha-account" id="wa-checklist" style="display:none;margin-top:10px;font-size:12px;line-height:1.45"></p>
-        <div class="senha-qr-actions">
-          <div class="senha-qr-actions-grid">
-            <button type="button" class="senha-btn-ghost" onclick="atualizarModalWhatsapp(true)">Atualizar status</button>
-            <button type="button" class="senha-btn-alt" onclick="generateQR('qr-box')">Atualizar QR</button>
-            <button type="button" class="senha-btn-ghost" onclick="reiniciarWhatsapp()">Reiniciar</button>
-            <button type="button" class="senha-btn-danger" onclick="desconectarWhatsapp()">Desconectar</button>
+        <!-- Painel API Oficial Meta (novo) -->
+        <div id="wa-cloud-panel" style="display:none">
+          <div class="wa-info-panel" style="background:#f0f7ff">
+            <div class="wa-info-row" style="border:none">
+              <span>ℹ️</span>
+              <strong style="font-size:11px;font-weight:600;color:#264143;text-align:left">
+                Conecte via API Oficial da Meta.<br>
+                Sem risco de ban. Requer credenciais do
+                <a href="https://developers.facebook.com" target="_blank" style="color:#1877F2">Meta for Developers</a>.
+              </strong>
+            </div>
+          </div>
+          <div class="wa-cloud-form">
+            <div>
+              <label for="cloud-phone-id">Phone Number ID</label>
+              <input type="text" id="cloud-phone-id" placeholder="ex: 123456789012345" autocomplete="off">
+            </div>
+            <div>
+              <label for="cloud-business-id" style="margin-top: 8px;">Business Account ID</label>
+              <input type="text" id="cloud-business-id" placeholder="ex: 123456789012345" autocomplete="off">
+            </div>
+            <div>
+              <label for="cloud-token" style="margin-top: 8px;">Access Token (permanente)</label>
+              <input type="text" id="cloud-token" placeholder="Token de acesso da Meta" autocomplete="off">
+            </div>
+            <div id="cloud-status-box" style="display:none; margin-top: 10px;">
+              <div class="wa-cloud-status" id="cloud-status-msg"></div>
+            </div>
+            <button type="button" class="senha-btn-alt" style="width:100%;margin:12px 0 0" onclick="criarInstanciaCloudApi()" id="cloud-btn-criar">
+              🚀 Criar instância API Oficial
+            </button>
           </div>
         </div>
       </div>
@@ -5631,6 +5761,91 @@
     function fecharQR() {
       document.getElementById('modal-qr').classList.remove('open');
       pararAutoQr();
+    }
+
+    /** Alterna entre aba QR Code e API Oficial Meta no modal */
+    function switchWaMode(mode) {
+      var qrPanel = document.getElementById('wa-qr-panel');
+      var cloudPanel = document.getElementById('wa-cloud-panel');
+      if (!qrPanel || !cloudPanel) return;
+
+      qrPanel.style.display = mode === 'qr' ? '' : 'none';
+      cloudPanel.style.display = mode === 'cloud' ? '' : 'none';
+
+      document.querySelectorAll('.wa-connect-tab').forEach(function (tab) {
+        tab.classList.toggle('active', tab.getAttribute('data-mode') === mode);
+      });
+
+      if (mode === 'qr') {
+        atualizarModalWhatsapp(false);
+      }
+    }
+
+    /** Cria instância via API Oficial Meta (Cloud API) */
+    async function criarInstanciaCloudApi() {
+      var phoneId = document.getElementById('cloud-phone-id').value.trim();
+      var businessId = document.getElementById('cloud-business-id').value.trim();
+      var token = document.getElementById('cloud-token').value.trim();
+      var btn = document.getElementById('cloud-btn-criar');
+      var statusBox = document.getElementById('cloud-status-box');
+      var statusMsg = document.getElementById('cloud-status-msg');
+
+      if (!phoneId || !businessId || !token) {
+        statusBox.style.display = '';
+        statusMsg.className = 'wa-cloud-status err';
+        statusMsg.textContent = '❌ Preencha Phone Number ID, Business Account ID e Access Token.';
+        return;
+      }
+
+      btn.disabled = true;
+      statusBox.style.display = '';
+      statusMsg.className = 'wa-cloud-status loading';
+      statusMsg.textContent = 'Aguarde... conectando ao Meta...';
+
+      try {
+        var res = await fetch('/api/whatsapp/instancias', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({
+            integration: 'WHATSAPP-BUSINESS',
+            phone_number_id: phoneId,
+            access_token: token,
+            business_account_id: businessId
+          }),
+        });
+        var data = await res.json();
+        statusBox.style.display = '';
+        if (res.ok && data.ok) {
+          statusMsg.className = 'wa-cloud-status ok';
+          statusMsg.textContent = '✅ Instância criada com sucesso! A IA já está ativa neste número.';
+          // Limpar campos
+          document.getElementById('cloud-phone-id').value = '';
+          document.getElementById('cloud-business-id').value = '';
+          document.getElementById('cloud-token').value = '';
+          // Recarregar instâncias
+          waInstancias = [];
+          await garantirInstanciasWa();
+          // Alternar para a aba QR para ver status
+          setTimeout(function () {
+            waInstanciaAtual = data.instancia?.nome || '';
+            try { localStorage.setItem('tilit_wa_instance', waInstanciaAtual); } catch (_) {}
+            popularSelectInstanciasWa();
+            switchWaMode('qr');
+            atualizarModalWhatsapp(true);
+          }, 1500);
+        } else {
+          statusMsg.className = 'wa-cloud-status err';
+          statusMsg.textContent = '❌ ' + (data.erro || 'Erro desconhecido');
+        }
+      } catch (err) {
+        statusBox.style.display = '';
+        statusMsg.className = 'wa-cloud-status err';
+        statusMsg.textContent = '❌ Falha na conexão: ' + (err.message || err);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🚀 Criar instância API Oficial';
+      }
     }
 
     function formatarTelefoneBrDisplay(tel) {

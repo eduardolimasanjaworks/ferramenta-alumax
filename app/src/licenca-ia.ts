@@ -4,6 +4,7 @@
  */
 import pg from 'pg';
 import { config } from './config.js';
+import { carregarInstanciasWa } from './lib/whatsapp-instancias.js';
 
 type CacheEntry = { ok: boolean; exp: number };
 
@@ -42,6 +43,12 @@ async function consultarPostgres(instance: string): Promise<boolean | null> {
 
 /** true = IA pode responder nesta linha WhatsApp. */
 export async function linhaTemLicencaIa(instance?: string | null): Promise<boolean> {
+  const pUrl = process.env.LICENCA_IA_DATABASE_URL?.trim();
+  if (!pUrl) {
+    // Instalação padrão sem servidor central de licenças: autoriza todas as instâncias locais
+    return true;
+  }
+
   let inst = (instance && String(instance).trim()) || config.evolutionInstance;
   // Aliases genéricos (Uaz usa nomes curtos) → instância principal cadastrada na licença
   if (
@@ -70,9 +77,21 @@ export async function linhaTemLicencaIa(instance?: string | null): Promise<boole
       ok = true;
       break;
     }
-    if (doPg === null && nome === normalizarInstance(config.evolutionInstance)) {
-      ok = true;
-      break;
+    if (doPg === null) {
+      // Se não há banco de licença central, cai no fallback local
+      if (nome === normalizarInstance(config.evolutionInstance)) {
+        ok = true;
+        break;
+      }
+      // Verifica se a instância existe e está ativa nas instâncias locais
+      const ativas = await carregarInstanciasWa().catch(() => []);
+      const ativaEncontrada = ativas.some(
+        (i) => normalizarInstance(i.name) === nome || normalizarInstance(i.label) === nome
+      );
+      if (ativaEncontrada) {
+        ok = true;
+        break;
+      }
     }
   }
 

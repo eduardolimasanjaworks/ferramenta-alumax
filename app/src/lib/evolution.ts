@@ -56,6 +56,7 @@ type InstanciaEvolution = {
   name?: string;
   connectionStatus?: string;
   ownerJid?: string;
+  number?: string;
   profileName?: string;
   profilePicUrl?: string;
   integration?: string;
@@ -89,7 +90,7 @@ export async function obterInfoInstancia(instance = config.evolutionInstance): P
     instanceName: instance,
     connected,
     state,
-    telefone: telefoneDeOwnerJid(inst?.ownerJid),
+    telefone: telefoneDeOwnerJid(inst?.ownerJid) || inst?.number || null,
     profileName: inst?.profileName ?? null,
     profilePicUrl: inst?.profilePicUrl ?? null,
     integration: inst?.integration ?? null,

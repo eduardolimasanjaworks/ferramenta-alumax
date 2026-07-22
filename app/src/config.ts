@@ -1,6 +1,27 @@
-/**
- * Configuracao central — Tilit (isolado da Minas Placa).
- */
+import { readFileSync, existsSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+function carregarDotenv(): void {
+  const paths = [resolve(process.cwd(), '.env'), resolve(process.cwd(), '../.env')];
+  for (const p of paths) {
+    if (existsSync(p)) {
+      try {
+        const conteudo = readFileSync(p, 'utf-8');
+        for (const linha of conteudo.split('\n')) {
+          const l = linha.trim();
+          if (!l || l.startsWith('#')) continue;
+          const idx = l.indexOf('=');
+          if (idx > 0) {
+            const k = l.substring(0, idx).trim();
+            const v = l.substring(idx + 1).trim().replace(/^["']|["']$/g, '');
+            if (!process.env[k]) process.env[k] = v;
+          }
+        }
+      } catch {}
+    }
+  }
+}
+carregarDotenv();
 
 function token(
   nome: string,
@@ -90,4 +111,11 @@ export const config = {
   chatwootWebhookSecret: process.env.CHATWOOT_WEBHOOK_SECRET?.trim() || undefined,
   /** Opcional — se vazio, obtido via Platform API do usuario SSO. */
   chatwootApiAccessToken: token('chatwoot api', 'CHATWOOT_API_ACCESS_TOKEN'),
+
+  // API Oficial do Meta (WhatsApp Cloud API)
+  metaAccessToken: process.env.META_ACCESS_TOKEN?.trim() || undefined,
+  metaPhoneNumberId: process.env.META_PHONE_NUMBER_ID?.trim() || undefined,
+  metaBusinessAccountId: process.env.META_BUSINESS_ACCOUNT_ID?.trim() || undefined,
+  metaVerifyToken: process.env.META_VERIFY_TOKEN?.trim() || process.env.IAMINASPLACA_ADMIN_PASSWORD || 'Tilit2026!',
+  chatwootMetaInboxId: process.env.CHATWOOT_META_INBOX_ID ? Number(process.env.CHATWOOT_META_INBOX_ID) : undefined,
 };

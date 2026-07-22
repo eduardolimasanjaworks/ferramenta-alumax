@@ -267,7 +267,9 @@ export async function rotasWebhook(app: FastifyInstance): Promise<void> {
   app.post('/webhook/evolution', async (req, reply) => {
     const payload = req.body as WebhookEvolution;
 
-    if (normalizarEvento(payload.event) !== 'messages_upsert') {
+    const ev = normalizarEvento(payload.event);
+    const eventosValidos = new Set(['messages_upsert', 'messages_set', 'messages_update', 'send_message', 'messages_recv']);
+    if (!eventosValidos.has(ev) && !ev.includes('messages')) {
       return reply.status(200).send({ ok: true, ignorado: payload.event });
     }
 

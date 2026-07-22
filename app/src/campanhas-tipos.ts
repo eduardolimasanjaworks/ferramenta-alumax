@@ -20,7 +20,9 @@ export type CampanhaRow = {
   nome: string;
   tag: string;
   instancia: string;
-  modo: 'livre' | 'template';
+  modo: 'livre' | 'template' | 'meta_template';
+  metaTemplateName?: string;
+  metaTemplateLang?: string;
   mensagens: MensagemCampanha[];
   delayMinSec: number;
   delayMaxSec: number;

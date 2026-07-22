@@ -36,7 +36,16 @@ export async function processarJobsCampanhas(): Promise<number> {
         await adiarJob(job.id, new Date(Date.now() + 15 * 60_000));
         continue;
       }
-      await enviarTextoCanal(job.instancia, job.telefone, job.texto, 800);
+      if (job.modo === 'meta_template') {
+        const { enviarTemplateMeta } = await import('./lib/meta-api.js');
+        const templateNome = job.metaTemplateName || '';
+        if (!templateNome) {
+          throw new Error('A campanha está no modo oficial do Meta mas não possui um nome de template cadastrado.');
+        }
+        await enviarTemplateMeta(job.telefone, templateNome, job.metaTemplateLang || 'pt_BR');
+      } else {
+        await enviarTextoCanal(job.instancia, job.telefone, job.texto, 800);
+      }
       await marcarJob(job.id, 'enviado');
       n++;
     } catch (err) {
@@ -55,7 +64,10 @@ export function iniciarWorkerCampanhas(): void {
     try {
       await processarJobsCampanhas();
     } catch (err) {
-      console.error('[campanhas] worker erro:', err);
+      const msg = err instanceof Error ? err.message : String(err);
+      if (!msg.includes('ENOTFOUND') && !msg.includes('ECONNREFUSED')) {
+        console.error('[campanhas] worker erro:', msg);
+      }
     }
   };
   void tick();

@@ -1,68 +1,59 @@
 /**
- * Historico de conversas — Minas Placa clean.
+ * Histórico de conversas (Postgres) — Minas Placa.
+ * Armazena mensagens trocadas no WhatsApp (user e assistant) e respostas de atendentes.
  */
 import pg from 'pg';
 import { config } from './config.js';
+import { canonizarTelefoneBr, telefoneEhContatoValido, variantesTelefoneBr } from './util/telefone.js';
 import type { RegistroHistorico } from './lib/tipos.js';
-import { canonizarTelefoneBr, variantesTelefoneBr, telefoneEhContatoValido } from './util/telefone.js';
 
 const pool = new pg.Pool({ connectionString: config.databaseUrl });
 
 export async function inicializarBancoHistorico(): Promise<void> {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS historico_conversa (
-      id SERIAL PRIMARY KEY,
-      telefone TEXT NOT NULL,
-      role TEXT NOT NULL,
-      content TEXT NOT NULL,
-      timestamp TIMESTAMPTZ DEFAULT NOW()
-    )
-  `);
-  await pool.query(`
-    CREATE INDEX IF NOT EXISTS idx_historico_telefone_ts
-    ON historico_conversa (telefone, timestamp DESC)
-  `);
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS historico_conversa (
+        id BIGSERIAL PRIMARY KEY,
+        telefone TEXT NOT NULL,
+        role TEXT NOT NULL,
+        content TEXT NOT NULL,
+        timestamp TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+      CREATE INDEX IF NOT EXISTS idx_historico_telefone_ts ON historico_conversa (telefone, timestamp DESC);
+    `);
+  } catch (err) {
+    console.warn('[historico] AVISO: Banco de dados indisponível no momento.');
+  }
 }
 
-function mapRow(r: { role: string; content: string; timestamp: Date | string }): RegistroHistorico {
-  const roleRaw = String(r.role || '');
-  const role: RegistroHistorico['role'] =
-    roleRaw === 'user' ? 'user' : 'assistant';
-  const prefix =
-    roleRaw === 'atendente' || roleRaw === 'humano' || roleRaw === 'equipe'
-      ? '[Atendente Tilit] '
-      : '';
+function mapRow(r: { role: string; content: string; timestamp: Date }): RegistroHistorico {
+  const role = r.role === 'user' || r.role === 'assistant' ? r.role : 'assistant';
+  const prefix = r.role === 'atendente' ? '[Atendente humano]: ' : '';
   return {
     role,
-    content: prefix + String(r.content || ''),
+    content: `${prefix}${r.content}`,
     timestamp: new Date(r.timestamp).getTime(),
   };
 }
 
-/** Mensagens proativas recentes (logs) para enriquecer o histórico da IA. */
-async function obterMensagensProativas(
-  telefones: string[],
-  limite = 5,
-): Promise<RegistroHistorico[]> {
-  if (!telefones.length) return [];
+async function obterMensagensProativas(variantes: string[], limite = 3): Promise<RegistroHistorico[]> {
   try {
     const res = await pool.query(
-      `SELECT telefone, payload_resumo, criado_em
-       FROM proativos_disparos_log
-       WHERE telefone = ANY($1)
-         AND status IN ('enviado', 'teste')
-         AND payload_resumo IS NOT NULL
-         AND payload_resumo <> ''
-         AND criado_em > NOW() - INTERVAL '7 days'
+      `SELECT tipo, mensagem, criado_em FROM notificacao_fila
+       WHERE telefone = ANY($1) AND status = 'enviada'
        ORDER BY criado_em DESC
        LIMIT $2`,
-      [telefones, limite],
+      [variantes, limite],
     );
-    return res.rows.map((r) => ({
-      role: 'assistant' as const,
-      content: `[Mensagem proativa automática — ${r.telefone}]\n${String(r.payload_resumo)}`,
-      timestamp: new Date(r.criado_em as string).getTime(),
-    }));
+
+    return res.rows.map((r) => {
+      const rotulo = String(r.tipo || 'notificacao').replace(/_/g, ' ');
+      return {
+        role: 'assistant' as const,
+        content: `[Mensagem proativa enviada pelo sistema (${rotulo})]: ${r.mensagem}`,
+        timestamp: new Date(r.criado_em as string).getTime(),
+      };
+    });
   } catch {
     return [];
   }
@@ -91,32 +82,40 @@ function mesclarHistorico(
 }
 
 export async function obterHistorico(telefone: string, limite = 20): Promise<RegistroHistorico[]> {
-  const canon = canonizarTelefoneBr(telefone);
-  const variantes = variantesTelefoneBr(telefone);
+  try {
+    const canon = canonizarTelefoneBr(telefone);
+    const variantes = variantesTelefoneBr(telefone);
 
-  const res = await pool.query(
-    `SELECT role, content, timestamp FROM historico_conversa
-     WHERE telefone = ANY($1)
-     ORDER BY timestamp DESC
-     LIMIT $2`,
-    [variantes, limite],
-  );
+    const res = await pool.query(
+      `SELECT role, content, timestamp FROM historico_conversa
+       WHERE telefone = ANY($1)
+       ORDER BY timestamp DESC
+       LIMIT $2`,
+      [variantes, limite],
+    );
 
-  const mensagens = res.rows.map(mapRow).reverse();
-  const proativas = await obterMensagensProativas(variantes, 3);
-  return mesclarHistorico(mensagens, proativas);
+    const mensagens = res.rows.map(mapRow).reverse();
+    const proativas = await obterMensagensProativas(variantes, 3);
+    return mesclarHistorico(mensagens, proativas);
+  } catch {
+    return [];
+  }
 }
 
 export async function adicionarAoHistorico(
   telefone: string,
   mensagens: Array<{ role: 'user' | 'assistant' | 'atendente'; content: string; timestamp: number }>,
 ): Promise<void> {
-  const canon = canonizarTelefoneBr(telefone);
-  for (const m of mensagens) {
-    await pool.query(
-      'INSERT INTO historico_conversa (telefone, role, content, timestamp) VALUES ($1, $2, $3, $4)',
-      [canon, m.role, m.content, new Date(m.timestamp).toISOString()],
-    );
+  try {
+    const canon = canonizarTelefoneBr(telefone);
+    for (const m of mensagens) {
+      await pool.query(
+        'INSERT INTO historico_conversa (telefone, role, content, timestamp) VALUES ($1, $2, $3, $4)',
+        [canon, m.role, m.content, new Date(m.timestamp).toISOString()],
+      );
+    }
+  } catch {
+    /* db offline - ignora persistencia em historico sem travar envio no canal */
   }
 }
 
@@ -130,45 +129,46 @@ export interface ConversaIniciada {
 /** Conversas com histórico recente + estado de pausa por contato. */
 export async function listarConversasIniciadas(dias = 90): Promise<ConversaIniciada[]> {
   const diasNum = Math.min(365, Math.max(1, Number(dias) || 90));
-  const res = await pool.query(
-    `SELECT telefone, MAX(timestamp) AS ultima_msg, COUNT(*)::int AS total
-     FROM historico_conversa
-     WHERE timestamp > NOW() - ($1::text || ' days')::interval
-     GROUP BY telefone
-     ORDER BY ultima_msg DESC`,
-    [String(diasNum)],
-  );
+  try {
+    const res = await pool.query(
+      `SELECT telefone, MAX(timestamp) AS ultima_msg, COUNT(*)::int AS total
+       FROM historico_conversa
+       WHERE timestamp > NOW() - ($1::text || ' days')::interval
+       GROUP BY telefone
+       ORDER BY ultima_msg DESC`,
+      [String(diasNum)],
+    );
 
-  const mapa = new Map<string, { ultima_msg: Date; total: number }>();
-  for (const row of res.rows) {
-    const canon = canonizarTelefoneBr(String(row.telefone ?? ''));
-    if (!telefoneEhContatoValido(canon)) continue;
-    const ultima = new Date(row.ultima_msg as string);
-    const total = Number(row.total) || 0;
-    const existente = mapa.get(canon);
-    if (!existente || ultima > existente.ultima_msg) {
-      mapa.set(canon, {
-        ultima_msg: ultima,
-        total: (existente?.total ?? 0) + total,
-      });
-    } else if (existente) {
-      existente.total += total;
+    const mapa = new Map<string, { ultima_msg: Date; total: number }>();
+    for (const row of res.rows) {
+      const canon = canonizarTelefoneBr(String(row.telefone ?? ''));
+      if (!telefoneEhContatoValido(canon)) continue;
+      const ultima = new Date(row.ultima_msg as string);
+      const total = Number(row.total) || 0;
+      const existente = mapa.get(canon);
+      if (!existente || ultima > existente.ultima_msg) {
+        mapa.set(canon, {
+          ultima_msg: ultima,
+          total: (existente?.total || 0) + total,
+        });
+      }
     }
-  }
 
-  const { obterEstadoPausa } = await import('./pausa-minasplaca.js');
-  const lista: ConversaIniciada[] = [];
-  for (const [telefone, info] of mapa) {
-    const est = await obterEstadoPausa(telefone);
-    lista.push({
-      telefone,
-      ultima_msg: info.ultima_msg.toISOString(),
-      total_mensagens: info.total,
-      pausada: est?.pausada === true,
-    });
+    const { obterEstadoPausa } = await import('./pausa-minasplaca.js');
+    const resultado: ConversaIniciada[] = [];
+    for (const [tel, v] of mapa.entries()) {
+      const est = await obterEstadoPausa(tel);
+      resultado.push({
+        telefone: tel,
+        ultima_msg: v.ultima_msg.toISOString(),
+        total_mensagens: v.total,
+        pausada: est?.pausada === true,
+      });
+    }
+    resultado.sort((a, b) => new Date(b.ultima_msg).getTime() - new Date(a.ultima_msg).getTime());
+    return resultado;
+  } catch (err) {
+    console.warn('[historico] DB offline em listarConversasIniciadas');
+    return [];
   }
-
-  return lista.sort(
-    (a, b) => new Date(b.ultima_msg).getTime() - new Date(a.ultima_msg).getTime(),
-  );
 }

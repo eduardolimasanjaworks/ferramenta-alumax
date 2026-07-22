@@ -109,9 +109,11 @@ const PUBLICOS: Array<string | RegExp> = [
   '/api/ui-flags',
   '/webhook/evolution',
   '/webhook/chatwoot',
+  '/webhook/meta',
   '/webhook/uazapi',
   '/favicon.ico',
   '/termos.html',
+  '/privacidade.html',
 ];
 
 export function ehCaminhoPublico(url: string): boolean {

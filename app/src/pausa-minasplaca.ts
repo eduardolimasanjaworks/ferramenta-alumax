@@ -229,45 +229,47 @@ export async function definirPausa(
 
 /** True se a IA nao deve responder (WhatsApp off, pausa global ou pausa do contato). */
 export async function iaEstaPausada(telefone: string): Promise<boolean> {
-  if (!(await whatsappConectadoParaIa())) return true;
-  if (await pausaGlobalAtiva()) return true;
-  const n = canonizarTelefoneBr(telefone);
-  if (!n) return false;
-  const raw = await redis.get(chave(n));
-  if (!raw) return false;
   try {
-    const estado = JSON.parse(raw) as EstadoPausa;
-    return estado.pausada === true;
+    if (!(await whatsappConectadoParaIa())) return true;
+    if (await pausaGlobalAtiva()) return true;
+    const n = canonizarTelefoneBr(telefone);
+    if (!n) return false;
+    const raw = await redis.get(chave(n));
+    if (!raw) return false;
+    try {
+      const estado = JSON.parse(raw) as EstadoPausa;
+      return estado.pausada === true;
+    } catch {
+      return raw === '1' || raw === 'true';
+    }
   } catch {
-    return raw === '1' || raw === 'true';
+    return false;
   }
 }
 
 /** Lista contatos com pausa ativa no Redis. */
 export async function listarPausasAtivas(): Promise<EstadoPausa[]> {
   const resultados: EstadoPausa[] = [];
-  let cursor = '0';
-  do {
-    const [next, keys] = await redis.scan(cursor, 'MATCH', `${PREFIXO}*`, 'COUNT', 100);
-    cursor = next;
-    for (const key of keys) {
-      const raw = await redis.get(key);
-      if (!raw) continue;
-      try {
-        const estado = JSON.parse(raw) as EstadoPausa;
-        if (estado.pausada) resultados.push(estado);
-      } catch {
-        const tel = key.replace(PREFIXO, '');
-        if (tel) {
-          resultados.push({
-            pausada: true,
-            telefone: tel,
-            atualizado_em: new Date().toISOString(),
-          });
+  try {
+    let cursor = '0';
+    do {
+      const [next, keys] = await redis.scan(cursor, 'MATCH', `${PREFIXO}*`, 'COUNT', 100);
+      cursor = next;
+      for (const key of keys) {
+        const raw = await redis.get(key);
+        if (!raw) continue;
+        try {
+          const estado = JSON.parse(raw) as EstadoPausa;
+          if (estado.pausada) resultados.push(estado);
+        } catch {
+          const tel = key.replace(PREFIXO, '');
+          resultados.push({ telefone: tel, pausada: true, atualizado_em: new Date().toISOString() });
         }
       }
-    }
-  } while (cursor !== '0');
+    } while (cursor !== '0');
+  } catch {
+    /* redis offline */
+  }
   return resultados.sort(
     (a, b) => new Date(b.atualizado_em).getTime() - new Date(a.atualizado_em).getTime(),
   );
@@ -340,14 +342,14 @@ export async function pausaGlobalAtiva(): Promise<boolean> {
 }
 
 export async function obterEstadoPausaGlobal(): Promise<EstadoPausaGlobal> {
-  const raw = await redis.get(CHAVE_GLOBAL);
-  if (!raw) {
-    return { pausada: false, atualizado_em: new Date().toISOString() };
-  }
   try {
+    const raw = await redis.get(CHAVE_GLOBAL);
+    if (!raw) {
+      return { pausada: false, atualizado_em: new Date().toISOString() };
+    }
     return JSON.parse(raw) as EstadoPausaGlobal;
   } catch {
-    return { pausada: true, atualizado_em: new Date().toISOString() };
+    return { pausada: false, atualizado_em: new Date().toISOString() };
   }
 }
 

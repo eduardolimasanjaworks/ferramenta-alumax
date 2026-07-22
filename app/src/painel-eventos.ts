@@ -41,7 +41,8 @@ export async function rotasPainelEventos(app: FastifyInstance): Promise<void> {
     reply.raw.setHeader('X-Accel-Buffering', 'no');
     reply.raw.flushHeaders?.();
 
-    const subscriber = new Redis(config.redisUrl);
+    const subscriber = new Redis(config.redisUrl, { lazyConnect: true, retryStrategy: () => null });
+    subscriber.on('error', () => {});
     let fechado = false;
 
     const ping = setInterval(() => {

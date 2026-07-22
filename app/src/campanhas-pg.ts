@@ -48,6 +48,8 @@ export async function inicializarBancoCampanhas(): Promise<void> {
       ON campanha_jobs (status, enviar_em)
       WHERE status = 'pendente';
   `);
+  await pool.query(`ALTER TABLE campanhas ADD COLUMN IF NOT EXISTS meta_template_name TEXT`);
+  await pool.query(`ALTER TABLE campanhas ADD COLUMN IF NOT EXISTS meta_template_lang TEXT`);
 }
 
 function mapRow(r: Record<string, unknown>): CampanhaRow {
@@ -56,7 +58,9 @@ function mapRow(r: Record<string, unknown>): CampanhaRow {
     nome: String(r.nome),
     tag: String(r.tag ?? ''),
     instancia: String(r.instancia ?? ''),
-    modo: (r.modo === 'template' ? 'template' : 'livre') as 'livre' | 'template',
+    modo: (r.modo === 'template' ? 'template' : r.modo === 'meta_template' ? 'meta_template' : 'livre') as 'livre' | 'template' | 'meta_template',
+    metaTemplateName: r.meta_template_name ? String(r.meta_template_name) : undefined,
+    metaTemplateLang: r.meta_template_lang ? String(r.meta_template_lang) : undefined,
     mensagens: Array.isArray(r.mensagens) ? (r.mensagens as MensagemCampanha[]) : [],
     delayMinSec: Number(r.delay_min_sec ?? 30),
     delayMaxSec: Number(r.delay_max_sec ?? 120),
@@ -105,15 +109,18 @@ export async function upsertCampanha(
   await pool.query(
     `INSERT INTO campanhas (
       id, nome, tag, instancia, modo, mensagens, delay_min_sec, delay_max_sec,
-      usar_horarios, horario_inicio, horario_fim, agendado_em, status, atualizado_em
-    ) VALUES ($1,$2,$3,$4,$5,$6::jsonb,$7,$8,$9,$10,$11,$12,$13,NOW())
+      usar_horarios, horario_inicio, horario_fim, agendado_em, status, atualizado_em,
+      meta_template_name, meta_template_lang
+    ) VALUES ($1,$2,$3,$4,$5,$6::jsonb,$7,$8,$9,$10,$11,$12,$13,NOW(),$14,$15)
     ON CONFLICT (id) DO UPDATE SET
       nome = EXCLUDED.nome, tag = EXCLUDED.tag, instancia = EXCLUDED.instancia,
       modo = EXCLUDED.modo, mensagens = EXCLUDED.mensagens,
       delay_min_sec = EXCLUDED.delay_min_sec, delay_max_sec = EXCLUDED.delay_max_sec,
       usar_horarios = EXCLUDED.usar_horarios, horario_inicio = EXCLUDED.horario_inicio,
       horario_fim = EXCLUDED.horario_fim, agendado_em = EXCLUDED.agendado_em,
-      status = EXCLUDED.status, atualizado_em = NOW()`,
+      status = EXCLUDED.status, atualizado_em = NOW(),
+      meta_template_name = EXCLUDED.meta_template_name,
+      meta_template_lang = EXCLUDED.meta_template_lang`,
     [
       id,
       input.nome.trim(),
@@ -132,6 +139,8 @@ export async function upsertCampanha(
           ? new Date(existente.agendadoEm)
           : null,
       input.status ?? existente?.status ?? 'rascunho',
+      input.metaTemplateName ?? existente?.metaTemplateName ?? null,
+      input.metaTemplateLang ?? existente?.metaTemplateLang ?? null,
     ],
   );
   const c = await obterCampanha(id);

@@ -3,7 +3,7 @@
  * Campos alinhados ao fluxo TechFala (tag, conexão, mensagens, delay, data).
  */
 import { useEffect, useState } from 'react'
-import { estimarPublico } from './api'
+import { estimarPublico, listarMetaTemplates, criarMetaTemplate } from './api'
 import { CampanhaAgendamento } from './CampanhaAgendamento'
 import { CampanhaMensagens } from './CampanhaMensagens'
 import { formVazio, novaMsg } from './formHelpers'
@@ -41,6 +41,37 @@ export function CampanhaSheet({
   const [saving, setSaving] = useState(false)
   const [erro, setErro] = useState('')
 
+  const [metaTemplates, setMetaTemplates] = useState<any[]>([])
+  const [carregandoTemplates, setCarregandoTemplates] = useState(false)
+  const [showCriarTemplate, setShowCriarTemplate] = useState(false)
+  const [novoTemplate, setNovoTemplate] = useState({ name: '', category: 'MARKETING' as 'MARKETING' | 'UTILITY', text: '', language: 'pt_BR' })
+  const [erroTemplate, setErroTemplate] = useState('')
+
+  useEffect(() => {
+    if (form.modo === 'meta_template') {
+      setCarregandoTemplates(true)
+      listarMetaTemplates()
+        .then((r) => setMetaTemplates(r.templates))
+        .catch(() => {})
+        .finally(() => setCarregandoTemplates(false))
+    }
+  }, [form.modo])
+
+  async function handleCriarTemplate() {
+    if (!novoTemplate.name.trim() || !novoTemplate.text.trim()) return
+    setErroTemplate('')
+    try {
+      await criarMetaTemplate(novoTemplate)
+      const r = await listarMetaTemplates()
+      setMetaTemplates(r.templates)
+      setForm({ ...form, metaTemplateName: novoTemplate.name.toLowerCase().replace(/[^a-z0-9_]/g, '_') })
+      setShowCriarTemplate(false)
+      setNovoTemplate({ name: '', category: 'MARKETING', text: '', language: 'pt_BR' })
+    } catch (e) {
+      setErroTemplate(e instanceof Error ? e.message : 'Falha ao criar template')
+    }
+  }
+
   useEffect(() => {
     if (!form.tag) {
       setEstimado(0)
@@ -63,7 +94,9 @@ export function CampanhaSheet({
     Boolean(form.nome.trim()) &&
     Boolean(form.tag) &&
     Boolean(form.instancia) &&
-    form.mensagens.some((m) => m.texto.trim())
+    (form.modo === 'meta_template'
+      ? Boolean(form.metaTemplateName)
+      : form.mensagens.some((m) => m.texto.trim()))
 
   async function go(agendar: boolean) {
     if (!valido) return
@@ -154,10 +187,118 @@ export function CampanhaSheet({
             </select>
           </label>
 
-          <CampanhaMensagens
-            mensagens={form.mensagens}
-            onChange={(mensagens) => setForm({ ...form, mensagens })}
-          />
+          <label className="field">
+            <span>Modo de Envio *</span>
+            <select
+              className="input"
+              value={form.modo}
+              onChange={(e) => setForm({ ...form, modo: e.target.value as any })}
+            >
+              <option value="livre">Mensagem Livre (WhatsApp normal)</option>
+              <option value="meta_template">Template Oficial (Meta WABA)</option>
+            </select>
+          </label>
+
+          {form.modo === 'meta_template' ? (
+            <div style={{ border: '1px solid #e2e8f0', padding: '12px', borderRadius: '6px', margin: '10px 0' }}>
+              <label className="field">
+                <span>Template Oficial Meta *</span>
+                {carregandoTemplates ? (
+                  <span className="cp-hint">Carregando templates oficiais...</span>
+                ) : (
+                  <select
+                    className="input"
+                    value={form.metaTemplateName || ''}
+                    onChange={(e) => setForm({ ...form, metaTemplateName: e.target.value })}
+                  >
+                    <option value="">Selecione um template aprovado...</option>
+                    {metaTemplates.map((t: any) => (
+                      <option key={t.name} value={t.name}>
+                        {t.name} ({t.status})
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </label>
+
+              <label className="field">
+                <span>Idioma do Template</span>
+                <select
+                  className="input"
+                  value={form.metaTemplateLang || 'pt_BR'}
+                  onChange={(e) => setForm({ ...form, metaTemplateLang: e.target.value })}
+                >
+                  <option value="pt_BR">Português (Brasil)</option>
+                  <option value="en_US">Inglês (EUA)</option>
+                  <option value="es_ES">Espanhol (Espanha)</option>
+                </select>
+              </label>
+
+              <button
+                type="button"
+                className="btn btn-outline btn-sm"
+                style={{ marginTop: '8px' }}
+                onClick={() => setShowCriarTemplate(!showCriarTemplate)}
+              >
+                {showCriarTemplate ? 'Cancelar criação de template' : '➕ Criar Novo Template no Meta'}
+              </button>
+
+              {showCriarTemplate && (
+                <div style={{ marginTop: '12px', background: '#f8fafc', padding: '12px', borderRadius: '6px', border: '1px dashed #cbd5e1' }}>
+                  <h4>Novo Template de Mensagem</h4>
+                  {erroTemplate ? <p className="cp-erro">{erroTemplate}</p> : null}
+                  
+                  <label className="field">
+                    <span>Nome do Template (letras minúsculas e underline)</span>
+                    <input
+                      className="input"
+                      placeholder="ex: promocao_novembro"
+                      value={novoTemplate.name}
+                      onChange={(e) => setNovoTemplate({ ...novoTemplate, name: e.target.value })}
+                    />
+                  </label>
+
+                  <label className="field">
+                    <span>Categoria</span>
+                    <select
+                      className="input"
+                      value={novoTemplate.category}
+                      onChange={(e) => setNovoTemplate({ ...novoTemplate, category: e.target.value as any })}
+                    >
+                      <option value="MARKETING">Marketing</option>
+                      <option value="UTILITY">Utilidade</option>
+                    </select>
+                  </label>
+
+                  <label className="field">
+                    <span>Texto do Corpo</span>
+                    <textarea
+                      className="input"
+                      style={{ minHeight: '80px', fontFamily: 'inherit' }}
+                      placeholder="Olá! Temos novidades para você. Use {{1}} para variáveis dinâmicas."
+                      value={novoTemplate.text}
+                      onChange={(e) => setNovoTemplate({ ...novoTemplate, text: e.target.value })}
+                    />
+                  </label>
+
+                  <button
+                    type="button"
+                    className="btn btn-primary btn-sm"
+                    style={{ marginTop: '8px' }}
+                    onClick={handleCriarTemplate}
+                    disabled={!novoTemplate.name.trim() || !novoTemplate.text.trim()}
+                  >
+                    Enviar para Aprovação do Meta
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <CampanhaMensagens
+              mensagens={form.mensagens}
+              onChange={(mensagens) => setForm({ ...form, mensagens })}
+            />
+          )}
 
           <CampanhaAgendamento
             form={form}

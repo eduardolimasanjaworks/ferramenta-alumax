@@ -74,3 +74,23 @@ export function estimarPublico(tag: string) {
     `/api/campanhas/meta/estimar?tag=${encodeURIComponent(tag)}`,
   )
 }
+
+export type MetaTemplate = {
+  name: string
+  category: 'MARKETING' | 'UTILITY'
+  language: string
+  status: string
+  components: any[]
+}
+
+export function listarMetaTemplates() {
+  return req<{ ok: boolean; templates: MetaTemplate[] }>('/api/campanhas/meta-templates')
+}
+
+export function criarMetaTemplate(body: { name: string; category: 'MARKETING' | 'UTILITY'; text: string; language?: string }) {
+  return req<{ ok: boolean; resultado: any }>('/api/campanhas/meta-templates', {
+    method: 'POST',
+    body: JSON.stringify(body),
+  })
+}
+

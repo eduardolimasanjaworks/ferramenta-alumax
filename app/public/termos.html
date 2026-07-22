@@ -1,447 +1,334 @@
-<html lang="pt-BR"><head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Termos de Uso · TechFala</title>
+    <title>Termos de Uso e Política de Privacidade da Plataforma (Meta Approved)</title>
     <link rel="icon" type="image/png" href="/assets/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #111224;
+            --primary-light: #1e2140;
+            --accent: #25d366;
+            --text: #2d3748;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --important-bg: #eff6ff;
+            --important-border: #3b82f6;
+            --warning-bg: #fffbeb;
+            --warning-border: #f59e0b;
+            --meta-bg: #f0fdf4;
+            --meta-border: #16a34a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
-            color: #3c4043;
-            max-width: 100%;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background-color: var(--bg);
             margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
         }
-        h1, h2, h3, h4, h5 {
-            color: #3c4043;
-            font-weight: 600;
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border: 1px solid var(--border);
         }
+
+        .header {
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 24px;
+            margin-bottom: 32px;
+        }
+
         h1 {
-            font-size: 2.2em;
-            text-align: left;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-            margin-bottom: 0;
+            color: var(--primary);
+            font-size: 2.1em;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        h3 {
-            font-size: 1.8em;
-            margin-top: 40px;
-            border-left: 4px solid #111224;
-            padding-left: 10px;
+
+        .date-info {
+            font-size: 0.9em;
+            color: #64748b;
+            font-style: italic;
         }
-        h4 {
-            font-size: 1.5em;
-            margin-top: 30px;
-        }
-        h5 {
-            font-size: 1.2em;
-            color: #3c4043;
-            margin-top: 25px;
-            margin-bottom: 10px;
-        }
-        p, li {
-            font-size: 1em;
-            color: #3c4043;
-        }
-        strong {
-            font-weight: 600;
-            color: #3c4043;
-        }
-        .section-break {
-            border: 0;
-            height: 1px;
-            background: #ddd;
-            margin: 40px 0;
-        }
-        .important-note {
-            background-color: #e7f3fe;
-            border-left: 5px solid #111224;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-        .config-section {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
-        .feature-box {
-            background-color: #fff8e1;
-            border-left: 5px solid #ff9800;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-        }
-        a {
-            color: #111224;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
+
         .intro-text {
-            font-size: 1.1em;
-            color: #3c4043;
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 5px;
-            margin-bottom: 30px;
+            background-color: #f1f5f9;
+            padding: 22px 26px;
+            border-radius: 10px;
+            font-size: 1.05em;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 32px;
         }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.35em;
+            font-weight: 600;
+            margin-top: 36px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .step-number {
-            background-color: #111224;
+            background-color: var(--primary);
             color: white;
             border-radius: 50%;
-            width: 25px;
-            height: 25px;
+            width: 28px;
+            height: 28px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            margin-right: 10px;
+            font-size: 0.85em;
+            font-weight: 700;
+            flex-shrink: 0;
         }
+
+        .config-section {
+            background-color: #ffffff;
+            border: 1px solid var(--border);
+            padding: 24px;
+            margin-bottom: 24px;
+            border-radius: 10px;
+        }
+
+        .meta-box {
+            background-color: var(--meta-bg);
+            border-left: 5px solid var(--meta-border);
+            padding: 18px 20px;
+            margin: 18px 0;
+            border-radius: 6px;
+        }
+
+        .important-note {
+            background-color: var(--important-bg);
+            border-left: 5px solid var(--important-border);
+            padding: 18px 20px;
+            margin: 18px 0;
+            border-radius: 6px;
+        }
+
+        .warning-box {
+            background-color: var(--warning-bg);
+            border-left: 5px solid var(--warning-border);
+            padding: 18px 20px;
+            margin: 18px 0;
+            border-radius: 6px;
+        }
+
         .execution-tool {
-            background-color: #e8f5e8;
-            border-left: 5px solid #28a745;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 4px;
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary-light);
+            padding: 16px 20px;
+            margin: 16px 0;
+            border-radius: 6px;
         }
-        .execution-tool h5 {
-            color: #3c4043;
-            margin-top: 0;
+
+        .execution-tool h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.1em;
+            color: var(--primary);
         }
-        .date-info {
-            font-style: italic;
-            color: #666;
-            margin-bottom: 20px;
-        }
+
         ul {
-            margin: 15px 0;
-            padding-left: 20px;
+            margin: 12px 0;
+            padding-left: 24px;
         }
+
         li {
             margin-bottom: 8px;
+        }
+
+        strong {
+            color: #1e293b;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-info {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.9em;
+            color: #64748b;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px 16px;
+            }
+            h1 {
+                font-size: 1.6em;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>📋 Termos de Uso · TechFala</h1>
-
-    <div class="date-info">
-        <p><strong>Última atualização:</strong> 12/06/2026</p>
+<div class="container">
+    <div class="header">
+        <h1>📋 Termos de Uso e Política da Plataforma (Geral)</h1>
+        <div class="date-info">
+            <p><strong>Última atualização:</strong> 21 de Julho de 2026 | Versão Geral 3.0 (Meta Developer Approved & Multitenant)</p>
+        </div>
     </div>
 
     <div class="intro-text">
-        <p>Ao utilizar nossos serviços e ferramentas, você declara que leu, compreendeu e concorda integralmente com estes Termos de Uso.</p>
+        <p>Estes <strong>Termos de Uso e Política de Privacidade</strong> regulam o acesso e a utilização da plataforma de tecnologia, Inteligência Artificial, automação de mensagens e CRM corporativo fornecida pela <strong>TechFala / Sanjaworks Soluções Tecnológicas</strong> e utilizada por suas empresas contratantes, lojistas e clientes finais. Ao utilizar a plataforma ou qualquer canal integrado a ela, você concorda plenamente com as condições aqui estabelecidas.</p>
     </div>
 
-    <hr class="section-break">
-
-    <h3><span class="step-number">1</span>Descrição dos Serviços e Escopo Tecnológico</h3>
+    <!-- SEÇÃO 1 -->
+    <h2><span class="step-number">1</span>Definições Gerais dos Papéis</h2>
     <div class="config-section">
-        <p>A <strong>TechFala</strong> fornece um ecossistema integrado de soluções baseadas em Inteligência Artificial voltado para lojistas, empresas e profissionais, compreendendo:</p>
-        <div class="feature-box">
-            <ul>
-                <li><strong>Automação de Comunicações:</strong> Integração e automação de fluxos de mensagens (notadamente para a plataforma WhatsApp), permitindo o treinamento de agentes virtuais para interagir com clientes finais;</li>
-                <li><strong>Ferramentas de Marketing Digital:</strong> Módulos de IA generativa voltados para a criação de textos publicitários (copywriting), criativos visuais, carrosséis para redes sociais, Landing Pages, páginas de vendas, apresentações institucionais e demais recursos correlatos de suporte ao marketing.</li>
-            </ul>
+        <p>Para fins de clareza jurídica e aplicação destes Termos, adotam-se as seguintes definições:</p>
+        <ul>
+            <li><strong>Provedora do Software / Desenvolvedora:</strong> TechFala / Sanjaworks Soluções Tecnológicas, responsável pelo desenvolvimento, manutenção da infraestrutura, APIs e motores de Inteligência Artificial do ecossistema SaaS;</li>
+            <li><strong>Empresa Licenciada / Contratante (Cliente SaaS):</strong> A empresa, lojista, profissional ou entidade corporativa que contrata a licença de uso da plataforma para automatizar seus atendimentos, gerenciar relacionamentos (CRM) e se comunicar com seus clientes;</li>
+            <li><strong>Usuário Final / Titular dos Dados:</strong> O cliente final, consumidor ou cidadão que interage com a Empresa Licenciada através de canais de atendimento (incluindo WhatsApp, Webchat e automações).</li>
+        </ul>
+    </div>
+
+    <!-- SEÇÃO 2 -->
+    <h2><span class="step-number">2</span>Escopo Tecnológico e Funcionalidades</h2>
+    <div class="config-section">
+        <p>A plataforma fornece uma infraestrutura integrada de software como serviço (SaaS), abrangendo:</p>
+        <ul>
+            <li><strong>Automação de Atendimento via Mensageria:</strong> Integração com canais de comunicação (notadamente a plataforma WhatsApp) para recepção, roteamento e resposta automatizada de atendimentos;</li>
+            <li><strong>Agentes Virtuais de Inteligência Artificial:</strong> Treinamento de agentes autônomos baseados em IA generativa e recuperação de conhecimento (RAG) para tiragem de dúvidas, qualificação de leads e agendamentos;</li>
+            <li><strong>Módulo CRM e Gestão de Contatos:</strong> Organização de contatos, funis de atendimento, histórico de conversas, atribuição de atendentes e gestão de tags;</li>
+            <li><strong>Agendamento e Campanhas:</strong> Módulos para gestão de horários disponíveis, notificações automáticas e envio de comunicações autorizadas.</li>
+        </ul>
+    </div>
+
+    <!-- SEÇÃO 3 (DIRETRIZES DA META) -->
+    <h2><span class="step-number">3</span>Conformidade Estrita com as Diretrizes da Meta e WhatsApp</h2>
+    <div class="config-section">
+        <p>Todos os serviços que utilizam integrações com a Meta Platforms, Inc. (incluindo WhatsApp Business API, Facebook Graph API e Instagram Graph API) operam sob rigorosas regras de conformidade:</p>
+
+        <div class="meta-box">
+            <p><strong>Adesão às Políticas Oficiais da Meta:</strong> A Provedora e a Empresa Licenciada declaram compromisso total de conformidade com os <a href="https://developers.facebook.com/terms/" target="_blank" rel="noopener">Termos da Plataforma Meta</a>, as <a href="https://developers.facebook.com/policy/" target="_blank" rel="noopener">Políticas de Desenvolvedores Meta</a> e a <a href="https://www.whatsapp.com/legal/commerce-policy" target="_blank" rel="noopener">Política de Mensagens Comerciais do WhatsApp</a>.</p>
+        </div>
+
+        <div class="execution-tool">
+            <h3>3.1 Vedação de SPAM e Comunicação Não Solicitada</h3>
+            <p>É expressamente proibido à Empresa Licenciada utilizar a plataforma para envio de disparos em massa não solicitados (SPAM), envio de mensagens a listas de contatos compradas de terceiros ou práticas invasivas sem autorização prévia do destinatário.</p>
+        </div>
+
+        <div class="execution-tool">
+            <h3>3.2 Obrigatoriedade do Consentimento (Opt-In)</h3>
+            <p>A Empresa Licenciada é a única responsável por obter e registrar a autorização livre, prévia, expressa e informada (Opt-in) do Usuário Final antes de iniciar comunicações ativas via WhatsApp.</p>
+        </div>
+
+        <div class="execution-tool">
+            <h3>3.3 Mecanismo Mandatório de Descadastramento (Opt-Out)</h3>
+            <p>Toda comunicação deve respeitar a vontade do Usuário Final em interromper o envio de mensagens. Respostas contendo comandos de parada (como <em>"SAIR"</em>, <em>"PARAR"</em>, <em>"CANCELAR"</em> ou <em>"STOP"</em>) serão processadas para bloquear envios futuros ao respectivo número.</p>
+        </div>
+
+        <div class="warning-box">
+            <p><strong>Consequências de Violação:</strong> O descumprimento das regras de uso de APIs da Meta resultará na suspensão imediata da conta do cliente infrator, sem direito a ressarcimento, resguardado o direito de indenização por eventuais sanções aplicadas à plataforma.</p>
         </div>
     </div>
 
-    <hr class="section-break">
-
-    <h3><span class="step-number">2</span>Registros, Contas e Segurança</h3>
-    <div class="config-section">
-        <p>Para utilizar nossos serviços, você deverá criar uma conta de acesso. Você é o único responsável por fornecer informações precisas e atualizadas, bem como por manter a estrita confidencialidade de sua senha. Todas as atividades realizadas na sua conta serão de sua inteira responsabilidade.</p>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">3</span>Do Uso de Inteligência Artificial e Responsabilidade Exclusiva do Usuário</h3>
+    <!-- SEÇÃO 4 -->
+    <h2><span class="step-number">4</span>Uso de Inteligência Artificial e Supervisão de Conteúdo</h2>
     <div class="config-section">
         <div class="execution-tool">
-            <h5>3.1 Caráter Auxiliar da Tecnologia</h5>
-            <p>O usuário declara ciência de que os materiais, automações, textos, páginas e artes são produzidos de forma automatizada por algoritmos de Inteligência Artificial, atuando a ferramenta como mera assistente de construção baseada nos comandos (prompts) fornecidos pelo próprio usuário.</p>
+            <h3>4.1 Responsabilidade pelo Treinamento do Agente</h3>
+            <p>As respostas e decisões tomadas pelos agentes de IA são geradas com base nas informações, instruções (prompts) e documentos fornecidos pela Empresa Licenciada.</p>
         </div>
 
         <div class="execution-tool">
-            <h5>3.2 Obrigação de Revisão</h5>
-            <p>Todo e qualquer conteúdo gerado pela IA <strong>deve ser obrigatoriamente revisado, checado e validado pelo usuário</strong> antes de qualquer divulgação, publicação ou envio a terceiros.</p>
+            <h3>4.2 Obrigação de Supervisão Humana</h3>
+            <p>Cabe à Empresa Licenciada supervisionar, testar e homologar as regras do assistente virtual. Respostas automatizadas não substituem a validação de contratos, preços oficiais ou compromissos formais da empresa.</p>
         </div>
 
         <div class="important-note">
-            <p><strong>Isenção de Responsabilidade por Respostas da IA ("Alucinações"):</strong> A TechFala não se responsabiliza por respostas indevidas, imprecisões, erros técnicos ou informações geradas erroneamente pela IA (fenômeno técnico de alucinação), incluindo, mas não se limitando a: concessão de descontos não autorizados pelo lojista, promessas comerciais divergentes do treinamento ou vazamento de dados por má configuração.</p>
+            <p><strong>Isenção por "Alucinações" de IA:</strong> A Provedora do Software não se responsabiliza por incoerências, erros de digitação, concessão indevida de descontos ou declarações imprecisas geradas por modelos de linguagem ("alucinações da IA"), devendo a Empresa Licenciada manter limitação clara de autonomia em suas diretrizes de IA.</p>
+        </div>
+    </div>
+
+    <!-- SEÇÃO 5 -->
+    <h2><span class="step-number">5</span>Proteção de Dados Pessoais (LGPD) e Política de Exclusão de Dados</h2>
+    <div class="config-section">
+        <p>A plataforma adota padrões avançados de segurança e privacidade em cumprimento à Lei Geral de Proteção de Dados Pessoais (LGPD — Lei nº 13.709/2018) e às exigências de proteção de dados da Meta (Meta Data Use Checkup).</p>
+
+        <div class="execution-tool">
+            <h3>5.1 Papéis na LGPD</h3>
+            <p>A Empresa Licenciada atua na condição de <strong>Controladora dos Dados</strong> de seus clientes finais. A Provedora do Software atua como <strong>Operadora dos Dados</strong>, realizando o processamento seguro estritamente sob as instruções da Empresa Licenciada e para o funcionamento do sistema.</p>
         </div>
 
+        <div class="execution-tool">
+            <h3>5.2 Medidas de Segurança</h3>
+            <p>Utilizamos criptografia SSL/TLS em todas as conexões, bancos de dados isolados por cliente, autenticação protegida por hash e restrição de acessos administrativos.</p>
+        </div>
+
+        <div class="meta-box" id="exclusao-de-dados">
+            <h3>5.3 Exclusão e Expurgo de Dados (Meta Data Deletion Policy)</h3>
+            <p>Qualquer Usuário Final ou Empresa Licenciada pode solicitar o acesso, correção ou exclusão definitiva de seus dados pessoais armazenados. A solicitação pode ser encaminhada diretamente ao Encarregado de Proteção de Dados (DPO) através dos e-mails oficiais: <a href="mailto:privacidade@sanjaworks.com">privacidade@sanjaworks.com</a> ou <a href="mailto:suporte@techfala.com.br">suporte@techfala.com.br</a>. O prazo de confirmação de exclusão nos sistemas é de até 15 (quinze) dias úteis.</p>
+        </div>
+    </div>
+
+    <!-- SEÇÃO 6 -->
+    <h2><span class="step-number">6</span>Propriedade Intelectual e Isenção de Marcas Registradas</h2>
+    <div class="config-section">
+        <p>Todos os direitos sobre a plataforma SaaS, códigos-fonte, arquitetura, design e algoritmos pertencem exclusivamente à Provedora do Software.</p>
         <div class="important-note">
-            <p><strong>Responsabilidade Legal, Ética e Social:</strong> Toda e qualquer responsabilidade legal, cível, criminal, ética ou social decorrente das informações postadas, veiculadas ou automatizadas através do sistema é de <strong>titularidade exclusiva do usuário</strong>. A TechFala reserva-se estritamente ao papel de desenvolvedora e fornecedora da infraestrutura de IA, não chancelando o teor do material produzido por seus clientes.</p>
+            <p><strong>Isenção quanto às Marcas da Meta:</strong> As marcas <em>WhatsApp</em>, <em>Meta</em>, <em>Facebook</em> e <em>Instagram</em> são marcas registradas de propriedade exclusiva de <strong>Meta Platforms, Inc.</strong> O uso dessas marcas nestes Termos serve estritamente para declarar compatibilidade técnica de integração via APIs públicas e oficiais, não indicando patrocínio, endosso ou vínculo societário direto com a Meta.</p>
         </div>
     </div>
 
-    <hr class="section-break">
-
-    <h3><span class="step-number">4</span>Política de Créditos (Coins) e Consumo do Sistema</h3>
+    <!-- SEÇÃO 7 -->
+    <h2><span class="step-number">7</span>Disponibilidade do Serviço (SLA) e Limitação de Responsabilidade</h2>
     <div class="config-section">
-        <div class="execution-tool">
-            <h5>4.1 Regra de Consumo Conversacional e Computacional</h5>
-            <p>A utilização das ferramentas de marketing, geração de textos, páginas de venda e automações consome créditos internos da plataforma, denominados Coins.</p>
-        </div>
-
-        <div class="execution-tool">
-            <h5>4.2 Consumo por Processamento</h5>
-            <p>Os Coins são consumidos de forma legítima a cada processamento ou interação solicitada pelo usuário. Isso inclui, de forma irrevogável, o consumo de créditos para:</p>
-            <div class="feature-box">
-                <ul>
-                    <li>A construção inicial de materiais;</li>
-                    <li>Revisões, alterações e edições de conteúdos já gerados;</li>
-                    <li>Novas tentativas decorrentes de interpretações equivocadas da IA ou insatisfação do usuário quanto à qualidade estética ou textual do material entregue.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="important-note">
-            <p><strong>Inexistência de Estorno de Créditos:</strong> Uma vez processada a requisição pelo motor de Inteligência Artificial, os Coins correspondentes são considerados estritamente consumidos, não havendo direito a reembolso, estorno ou devolução de créditos por divergência de expectativa do usuário.</p>
+        <p>Buscamos manter o serviço disponível continuamente (meta de uptime de 99,5%).</p>
+        <div class="warning-box">
+            <p><strong>Limitação de Responsabilidade por Serviços de Terceiros:</strong> A Provedora não responde por falhas decorrentes de indisponibilidade nos servidores globais da Meta/WhatsApp, instabilidades de operadoras de telefonia, bloqueios decorrentes de condutas ilícitas do próprio cliente ou interrupções de fornecedores de infraestrutura de nuvem.</p>
         </div>
     </div>
 
-    <hr class="section-break">
-
-    <h3><span class="step-number">5</span>Restrições de Uso</h3>
+    <!-- SEÇÃO 8 -->
+    <h2><span class="step-number">8</span>Canais Oficiais de Suporte, Privacidade e Contato</h2>
     <div class="config-section">
-        <p>É expressamente proibido ao usuário:</p>
-        <div class="feature-box">
-            <ul>
-                <li>Utilizar os serviços para fins ilícitos, fraudulentos ou que violem regulamentos locais e internacionais;</li>
-                <li>Enviar mensagens em massa não solicitadas (spam), comunicações abusivas ou que violem as políticas de uso das APIs integradas (como as diretrizes da plataforma WhatsApp/Meta);</li>
-                <li>Ultrapassar o limite técnico de 30 interações por minuto, salvo contratação de plano corporativo customizado;</li>
-                <li>Utilizar a ferramenta para a geração de conteúdos injuriosos, discriminatórios, difamatórios ou que infrinjam direitos autorais de terceiros.</li>
-            </ul>
-        </div>
+        <p>Para dúvidas sobre estes termos, solicitações de privacidade (LGPD) ou suporte técnico, utilize nossos canais oficiais:</p>
+        <ul>
+            <li><strong>Suporte Técnico:</strong> <a href="mailto:suporte@techfala.com.br">suporte@techfala.com.br</a></li>
+            <li><strong>Encarregado de Proteção de Dados (DPO):</strong> <a href="mailto:privacidade@sanjaworks.com">privacidade@sanjaworks.com</a></li>
+            <li><strong>Desenvolvedora e Operadora da Infraestrutura:</strong> TechFala / Sanjaworks Soluções Tecnológicas</li>
+            <li><strong>URL Oficial deste Documento:</strong> <a href="/termos.html" target="_blank">/termos.html</a></li>
+        </ul>
     </div>
 
-    <hr class="section-break">
-
-    <h3><span class="step-number">6</span>Suporte Técnico e SLA (Nível de Serviço)</h3>
-    <div class="config-section">
-        <p>O suporte técnico para a plataforma é fornecido exclusivamente por meio de nossa central de atendimento e sistema de abertura de chamados (Tickets). Comprometemo-nos a empenhar nossos melhores esforços para responder e solucionar intercorrências técnicas relatadas pelos usuários, observando os seguintes prazos médios estimados:</p>
-        <div class="feature-box">
-            <ul>
-                <li><strong>Problemas Casuais e de Baixa Complexidade:</strong> Previsão de resolução técnica em até <strong>24 (vinte e quatro) horas</strong>;</li>
-                <li><strong>Problemas de Média Complexidade:</strong> Previsão de resolução técnica em até <strong>48 (quarenta e oito) horas</strong>;</li>
-                <li><strong>Problemas de Alta Complexidade / Eventos Críticos:</strong> O prazo para resolução dependerá da extensão, natureza e complexidade do problema, com o envio de atualizações periódicas ao usuário sobre o status da tratativa.</li>
-            </ul>
-        </div>
+    <div class="footer-info">
+        <p>&copy; 2026 TechFala · Sanjaworks. Todos os direitos reservados. Termos desenvolvidos para conformidade com a Plataforma Meta e com a Lei Geral de Proteção de Dados (LGPD).</p>
     </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">7</span>Propriedade Intelectual</h3>
-    <div class="config-section">
-        <p>Todos os direitos de propriedade intelectual relacionados ao software, códigos-fonte, algoritmos, design e marcas da TechFala pertencem exclusivamente a nós. A aceitação destes termos confere ao usuário apenas uma licença de uso limitada, revogável e não transferível para a utilização das funcionalidades disponíveis em seu plano.</p>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">8</span>Pagamentos, Renovação e Cancelamento</h3>
-    <div class="config-section">
-        <div class="execution-tool">
-            <h5>8.1 Ciclo de Assinatura</h5>
-            <p>O serviço opera sob o modelo de assinatura mensal recorrente com ciclos de 30 dias, 90 dias, 180 dias e 360 dias, conforme opção do usuário ou disponível nos planos.</p>
-        </div>
-
-        <div class="execution-tool">
-            <h5>8.2 Cancelamento</h5>
-            <p>Caso o cliente não deseje a renovação automática para o próximo ciclo, deverá formalizar o cancelamento diretamente no painel de faturamento da plataforma antes do vencimento do período vigente.</p>
-        </div>
-
-        <div class="execution-tool">
-            <h5>8.3 Política de Não-Reembolso</h5>
-            <div class="important-note">
-                <p><strong>Importante:</strong> Após a confirmação da assinatura e compensação do pagamento, não haverá direito a estornos ou reembolsos proporcionais, independentemente da taxa de utilização real da ferramenta pelo usuário dentro daquele mês.</p>
-            </div>
-        </div>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">9</span>Limitação Geral de Responsabilidade</h3>
-    <div class="config-section">
-        <p>Os serviços são fornecidos "como estão". A TechFala não garante que as funções do sistema funcionarão de forma totalmente ininterrupta ou livre de defeitos, eximindo-se de responsabilidade por lucros cessantes, danos indiretos ou prejuízos comerciais decorrentes de instabilidades temporárias de provedores de nuvem ou bloqueios de segurança operados pelas plataformas proprietárias das APIs (Meta/WhatsApp).</p>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">10</span>Proteção de Dados (LGPD)</h3>
-    <div class="config-section">
-        <p>Cumprimos rigorosamente as diretrizes da Lei Geral de Proteção de Dados (Lei nº 13.709/2018). Adotamos severas medidas técnicas e organizacionais para salvaguardar e proteger as informações armazenadas contra acessos não autorizados, vazamentos ou modificações ilícitas.</p>
-        <div class="important-note">
-            <p><strong>Seus Direitos:</strong> O usuário possui total direito de acessar, corrigir ou requerer a exclusão de seus dados cadastrais a qualquer momento através dos canais de suporte.</p>
-        </div>
-    </div>
-
-
-</body></html>
-
-<body>
-
-    <h1>📋 Termos de Uso · TechFala</h1>
-
-    <div class="date-info">
-        <p><strong>Última atualização:</strong> 12/06/2026</p>
-    </div>
-
-    <div class="intro-text">
-        <p>Ao utilizar nossos serviços e ferramentas, você declara que leu, compreendeu e concorda integralmente com estes Termos de Uso.</p>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">1</span>Descrição dos Serviços e Escopo Tecnológico</h3>
-    <div class="config-section">
-        <p>A <strong>TechFala</strong> fornece um ecossistema integrado de soluções baseadas em Inteligência Artificial voltado para lojistas, empresas e profissionais, compreendendo:</p>
-        <div class="feature-box">
-            <ul>
-                <li><strong>Automação de Comunicações:</strong> Integração e automação de fluxos de mensagens (notadamente para a plataforma WhatsApp), permitindo o treinamento de agentes virtuais para interagir com clientes finais;</li>
-                <li><strong>Ferramentas de Marketing Digital:</strong> Módulos de IA generativa voltados para a criação de textos publicitários (copywriting), criativos visuais, carrosséis para redes sociais, Landing Pages, páginas de vendas, apresentações institucionais e demais recursos correlatos de suporte ao marketing.</li>
-            </ul>
-        </div>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">2</span>Registros, Contas e Segurança</h3>
-    <div class="config-section">
-        <p>Para utilizar nossos serviços, você deverá criar uma conta de acesso. Você é o único responsável por fornecer informações precisas e atualizadas, bem como por manter a estrita confidencialidade de sua senha. Todas as atividades realizadas na sua conta serão de sua inteira responsabilidade.</p>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">3</span>Do Uso de Inteligência Artificial e Responsabilidade Exclusiva do Usuário</h3>
-    <div class="config-section">
-        <div class="execution-tool">
-            <h5>3.1 Caráter Auxiliar da Tecnologia</h5>
-            <p>O usuário declara ciência de que os materiais, automações, textos, páginas e artes são produzidos de forma automatizada por algoritmos de Inteligência Artificial, atuando a ferramenta como mera assistente de construção baseada nos comandos (prompts) fornecidos pelo próprio usuário.</p>
-        </div>
-
-        <div class="execution-tool">
-            <h5>3.2 Obrigação de Revisão</h5>
-            <p>Todo e qualquer conteúdo gerado pela IA <strong>deve ser obrigatoriamente revisado, checado e validado pelo usuário</strong> antes de qualquer divulgação, publicação ou envio a terceiros.</p>
-        </div>
-
-        <div class="important-note">
-            <p><strong>Isenção de Responsabilidade por Respostas da IA ("Alucinações"):</strong> A TechFala não se responsabiliza por respostas indevidas, imprecisões, erros técnicos ou informações geradas erroneamente pela IA (fenômeno técnico de alucinação), incluindo, mas não se limitando a: concessão de descontos não autorizados pelo lojista, promessas comerciais divergentes do treinamento ou vazamento de dados por má configuração.</p>
-        </div>
-
-        <div class="important-note">
-            <p><strong>Responsabilidade Legal, Ética e Social:</strong> Toda e qualquer responsabilidade legal, cível, criminal, ética ou social decorrente das informações postadas, veiculadas ou automatizadas através do sistema é de <strong>titularidade exclusiva do usuário</strong>. A TechFala reserva-se estritamente ao papel de desenvolvedora e fornecedora da infraestrutura de IA, não chancelando o teor do material produzido por seus clientes.</p>
-        </div>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">4</span>Política de Créditos (Coins) e Consumo do Sistema</h3>
-    <div class="config-section">
-        <div class="execution-tool">
-            <h5>4.1 Regra de Consumo Conversacional e Computacional</h5>
-            <p>A utilização das ferramentas de marketing, geração de textos, páginas de venda e automações consome créditos internos da plataforma, denominados Coins.</p>
-        </div>
-
-        <div class="execution-tool">
-            <h5>4.2 Consumo por Processamento</h5>
-            <p>Os Coins são consumidos de forma legítima a cada processamento ou interação solicitada pelo usuário. Isso inclui, de forma irrevogável, o consumo de créditos para:</p>
-            <div class="feature-box">
-                <ul>
-                    <li>A construção inicial de materiais;</li>
-                    <li>Revisões, alterações e edições de conteúdos já gerados;</li>
-                    <li>Novas tentativas decorrentes de interpretações equivocadas da IA ou insatisfação do usuário quanto à qualidade estética ou textual do material entregue.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="important-note">
-            <p><strong>Inexistência de Estorno de Créditos:</strong> Uma vez processada a requisição pelo motor de Inteligência Artificial, os Coins correspondentes são considerados estritamente consumidos, não havendo direito a reembolso, estorno ou devolução de créditos por divergência de expectativa do usuário.</p>
-        </div>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">5</span>Restrições de Uso</h3>
-    <div class="config-section">
-        <p>É expressamente proibido ao usuário:</p>
-        <div class="feature-box">
-            <ul>
-                <li>Utilizar os serviços para fins ilícitos, fraudulentos ou que violem regulamentos locais e internacionais;</li>
-                <li>Enviar mensagens em massa não solicitadas (spam), comunicações abusivas ou que violem as políticas de uso das APIs integradas (como as diretrizes da plataforma WhatsApp/Meta);</li>
-                <li>Ultrapassar o limite técnico de 30 interações por minuto, salvo contratação de plano corporativo customizado;</li>
-                <li>Utilizar a ferramenta para a geração de conteúdos injuriosos, discriminatórios, difamatórios ou que infrinjam direitos autorais de terceiros.</li>
-            </ul>
-        </div>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">6</span>Suporte Técnico e SLA (Nível de Serviço)</h3>
-    <div class="config-section">
-        <p>O suporte técnico para a plataforma é fornecido exclusivamente por meio de nossa central de atendimento e sistema de abertura de chamados (Tickets). Comprometemo-nos a empenhar nossos melhores esforços para responder e solucionar intercorrências técnicas relatadas pelos usuários, observando os seguintes prazos médios estimados:</p>
-        <div class="feature-box">
-            <ul>
-                <li><strong>Problemas Casuais e de Baixa Complexidade:</strong> Previsão de resolução técnica em até <strong>24 (vinte e quatro) horas</strong>;</li>
-                <li><strong>Problemas de Média Complexidade:</strong> Previsão de resolução técnica em até <strong>48 (quarenta e oito) horas</strong>;</li>
-                <li><strong>Problemas de Alta Complexidade / Eventos Críticos:</strong> O prazo para resolução dependerá da extensão, natureza e complexidade do problema, com o envio de atualizações periódicas ao usuário sobre o status da tratativa.</li>
-            </ul>
-        </div>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">7</span>Propriedade Intelectual</h3>
-    <div class="config-section">
-        <p>Todos os direitos de propriedade intelectual relacionados ao software, códigos-fonte, algoritmos, design e marcas da TechFala pertencem exclusivamente a nós. A aceitação destes termos confere ao usuário apenas uma licença de uso limitada, revogável e não transferível para a utilização das funcionalidades disponíveis em seu plano.</p>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">8</span>Pagamentos, Renovação e Cancelamento</h3>
-    <div class="config-section">
-        <div class="execution-tool">
-            <h5>8.1 Ciclo de Assinatura</h5>
-            <p>O serviço opera sob o modelo de assinatura mensal recorrente com ciclos de 30 dias, 90 dias, 180 dias e 360 dias, conforme opção do usuário ou disponível nos planos.</p>
-        </div>
-
-        <div class="execution-tool">
-            <h5>8.2 Cancelamento</h5>
-            <p>Caso o cliente não deseje a renovação automática para o próximo ciclo, deverá formalizar o cancelamento diretamente no painel de faturamento da plataforma antes do vencimento do período vigente.</p>
-        </div>
-
-        <div class="execution-tool">
-            <h5>8.3 Política de Não-Reembolso</h5>
-            <div class="important-note">
-                <p><strong>Importante:</strong> Após a confirmação da assinatura e compensação do pagamento, não haverá direito a estornos ou reembolsos proporcionais, independentemente da taxa de utilização real da ferramenta pelo usuário dentro daquele mês.</p>
-            </div>
-        </div>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">9</span>Limitação Geral de Responsabilidade</h3>
-    <div class="config-section">
-        <p>Os serviços são fornecidos "como estão". A TechFala não garante que as funções do sistema funcionarão de forma totalmente ininterrupta ou livre de defeitos, eximindo-se de responsabilidade por lucros cessantes, danos indiretos ou prejuízos comerciais decorrentes de instabilidades temporárias de provedores de nuvem ou bloqueios de segurança operados pelas plataformas proprietárias das APIs (Meta/WhatsApp).</p>
-    </div>
-
-    <hr class="section-break">
-
-    <h3><span class="step-number">10</span>Proteção de Dados (LGPD)</h3>
-    <div class="config-section">
-        <p>Cumprimos rigorosamente as diretrizes da Lei Geral de Proteção de Dados (Lei nº 13.709/2018). Adotamos severas medidas técnicas e organizacionais para salvaguardar e proteger as informações armazenadas contra acessos não autorizados, vazamentos ou modificações ilícitas.</p>
-        <div class="important-note">
-            <p><strong>Seus Direitos:</strong> O usuário possui total direito de acessar, corrigir ou requerer a exclusão de seus dados cadastrais a qualquer momento através dos canais de suporte.</p>
-        </div>
-    </div>
-
+</div>
 
 </body>
+</html>
