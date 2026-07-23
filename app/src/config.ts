@@ -113,6 +113,8 @@ export const config = {
   chatwootApiAccessToken: token('chatwoot api', 'CHATWOOT_API_ACCESS_TOKEN'),
 
   // API Oficial do Meta (WhatsApp Cloud API)
+  metaAppId: process.env.META_APP_ID?.trim() || undefined,
+  metaAppSecret: process.env.META_APP_SECRET?.trim() || undefined,
   metaAccessToken: process.env.META_ACCESS_TOKEN?.trim() || undefined,
   metaPhoneNumberId: process.env.META_PHONE_NUMBER_ID?.trim() || undefined,
   metaBusinessAccountId: process.env.META_BUSINESS_ACCOUNT_ID?.trim() || undefined,

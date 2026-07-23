@@ -10,6 +10,7 @@ import { rotasWebhook } from './webhook-evolution.js';
 import { rotasWebhookChatwoot } from './webhook-chatwoot.js';
 import { rotasWebhookUazapi } from './webhook-uazapi.js';
 import { rotasWebhookMeta } from './webhook-meta.js';
+import { rotasMetaOauth } from './meta-oauth.js';
 import { rotasChatwootSso } from './chatwoot-sso.js';
 import { rotasPainelEventos } from './painel-eventos.js';
 import { rotasSaude } from './saude-minasplaca.js';
@@ -457,6 +458,7 @@ export async function criarServidor() {
   await app.register(rotasWebhookChatwoot);
   await app.register(rotasWebhookUazapi);
   await app.register(rotasWebhookMeta);
+  await app.register(rotasMetaOauth);
   await app.register(rotasPainelEventos);
   await app.register(rotasChatwootSso);
   await app.register(rotasUsuariosPainel);
