@@ -118,4 +118,5 @@ export const config = {
   metaBusinessAccountId: process.env.META_BUSINESS_ACCOUNT_ID?.trim() || undefined,
   metaVerifyToken: process.env.META_VERIFY_TOKEN?.trim() || process.env.IAMINASPLACA_ADMIN_PASSWORD || 'Tilit2026!',
   chatwootMetaInboxId: process.env.CHATWOOT_META_INBOX_ID ? Number(process.env.CHATWOOT_META_INBOX_ID) : undefined,
+  softwareAiApiKey: token('softwareAi', 'SOFTWAREAI_API_KEY'),
 };
